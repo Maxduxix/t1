@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en" style=" -webkit-user-drag: none;  user-select: none;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+  <div style="display: flex;">
+    <div style="width: 70%;">
+       <div id="terminal"></div>
+       <input id="inputLine" type="text" autofocus placeholder="Type here...">
+    </div>
+    <div id="terminal2" style="width: 28%; margin-left: 15px; height: 76.3px;"></div>
+  </div>
+    
+    <div id="c1" style="font-size: 23.5px; font-weight: bold; margin-top: 18px; margin-bottom: 1px;">Paperclips: <span id="v1all">0</span></div>
+    <div id="c1" style="font-size: 13.5px; opacity: 0.8; margin-bottom: 2px;">Paperclips Left: <span id="v1">0</span></div>
+    <div id="c1" style="font-size: 11.5px; opacity: 0.8;   line-height: 0.9; color: rgb(126, 81, 36);">Paperclips: <span id="v1a">0</span></div>
+    <div id="c1" style="font-size: 11.5px; opacity: 0.8;  line-height: 0.9; color: rgb(79, 53, 53);">Paperclips: <span id="v1b">0</span></div>
+    <div id="c1" style="font-size: 11.5px; opacity: 0.8; margin-bottom: 10px; line-height: 0.9; color: rgb(0, 0, 0);">Paperclips: <span id="v1c">0</span></div>
+
+
+<div class="leftcolumn">
+    <button id="b" style="padding: 2px 4px;" onclick="addv1()">
+  Make Paperclips
+  <div id="barContainer"><div id="barFill1" class="barFill1" style="height: 5px;"></div></div>
+  <div id="barContainer"><div id="barFill2" class="barFill2" style="height: 5px;"></div></div>
+</button>
+
+  <div class="businesspart" id="prog1" style="opacity: 0;">
+    <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Business</b>
+    <hr style="margin: 0;">
+
+    <div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 2px;">Available Funds:  $ <span id="funds">0</span></div>
+
+    <div style="display: flex;  margin-bottom: 2px;">
+        <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px;" onclick="v1plus()" id="b" >+</button>
+          <div style="font-size: 13.5px; border: solid 1.1px rgb(0, 0, 0); padding-left: 5px; margin: 1px; width: auto; justify-items: center; align-content: center;"><div style="padding-right: 5px;">Price/c: $ <span id="v1price"> 20</span></div></div>
+          <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px; " onclick="v1minus()" id="b">-</button>
+    </div>
+
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Public Demand:  <span id="demand"> 0 </span> %</div>
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Sell-Rate: <span id="sellspeed"> 0.45 </span> s</div>
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Demand-Margin: <span id="sellspeed"> 28 </span> Pieces</div>
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Weather: Paperclip (<span id="weather"> 0 </span>) </div>
+     <div id="barContainer"><div id="barFill4" class="barFill3" style="height: 5px; margin-bottom: 3px; "></div></div>
+
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 12px;">Oxidation Rate <span id="oxidation"> 0 </span> %</div>
+
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Avail-OnStore:  <span id="store"> 1 </span></div>
+     <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv3()">Marketing </button><span style="font-size: 14px;"> Level: <span id="marketlevel"> 1</span></span>
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Cost:  $ <span id="v3price"> 0 </span></div>
+
+
+
+</div>
+<div class="businesspart" id="prog2" style="opacity: 0;">
+    <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Manufacturing</b>
+    <hr style="margin: 0;">
+<div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 2px;"> 
+  <div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 1px;">Oxidation-Meter:</div>
+
+  <div id="barContainer" style="height: 11px; width: 200px;  font-size: 10px; margin-bottom: 5px;"><div id="barFill3" class="barFill3" style="margin-bottom: 19px; color: rgb(212, 205, 205);"></div></div>
+
+  Copper Wire: <span id="wire1">0</span> Inches 
+  <span><button style="font-size: 11px;" id="b" onclick="addWire(1)">( ✓ )</button></span>
+  <span><button style="font-size: 11px;" id="b" onclick="useWire(1)">( USE )</button></span>
+</div>
+
+<div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 2px;"> 
+  Iron Wire: <span id="wire2">0</span> Inches 
+  <span><button style="font-size: 11px;" id="b" onclick="addWire(2)">( ✓ )</button></span>
+  <span><button style="font-size: 11px;" id="b" onclick="useWire(2)">( USE )</button></span>
+</div>
+
+<div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 2px;"> 
+  Steel Wire: <span id="wire3">0</span> Inches 
+  <span><button style="font-size: 11px;" id="b" onclick="addWire(3)">( ✓ )</button></span>
+  <span><button style="font-size: 11px;" id="b" onclick="useWire(3)">( USE )</button></span>
+</div>
+
+
+
+
+    <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv2()">Purchase a Wire</button>
+    <div style="display: flex;  margin-bottom: 19px;">
+        <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px;;" onclick="v2plus()" id="b" >+</button>
+          <div style="font-size: 13.5px; border: solid 1.1px rgb(0, 0, 0); padding-left: 5px; margin: 1px; width: auto; justify-items: center; align-content: center;"><div style="padding-right: 5px;"><span id="v2">0</span> Inches: $ <span id="v2price">0.01</span></div></div>
+          <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px; " onclick="v2minus()" id="b">-</button>
+    </div>
+    
+</div>
+
+</div>
+
+<div class="leftcolumn" id="prog3" style="opacity: 0;">
+  <div class="businesspart">
+    <b style="font-size: 15px; display: block; margin-bottom: 2px; width: 375px; ">Processor</b>
+    <hr style="margin: 0;">
+    <p>Operations: <span id="operations">0</span> OP</p>
+    <div id="grid"></div>
+
+
+</div>
+<div class="businesspart">
+    <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Circuit-Board</b>
+    <hr style="margin: 0;">
+    <div>
+  <p>Producers: <span id="producerCount">0</span> 
+  <button onclick="buyItem('producer')" id="b"  >Buy</button> 
+  <button onclick="useItem('producer')" id="b">Use</button>
+</p>
+
+<p>Stabilizers: <span id="stabilizerCount">0</span> 
+  <button onclick="buyItem('stabilizer')" id="b">Buy</button> 
+  <button onclick="useItem('stabilizer')" id="b">Use</button>
+</p>
+
+<p>Amplifiers: <span id="amplifierCount">0</span> 
+  <button onclick="buyItem('amplifier')" id="b">Buy</button> 
+  <button onclick="useItem('amplifier')" id="b">Use</button>
+</p>
+
+  <p>Instability: <span id="instability">0</span>%</p>
+</div>
+
+
+    <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv2()">Purchase a Wire</button>
+    <div style="display: flex;  margin-bottom: 19px;">
+        <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px;;" onclick="v2plus()" id="b" >+</button>
+          <div style="font-size: 13.5px; border: solid 1.1px rgb(0, 0, 0); padding-left: 5px; margin: 1px; width: auto; justify-items: center; align-content: center;"><div style="padding-right: 5px;">T<span>0</span>: $ <span id="v2price">20</span></div></div>
+          <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px; " onclick="v2minus()" id="b">-</button>
+    </div>
+    
+</div>
+
+</div>
+
+</div>
+
+
+
+</body>
+
+<script>
+    let gs = JSON.parse(localStorage.getItem("gs")) || {
+    paperclipall: 0, weather: 0,
+    paperclip: 0, paperclip1: 0, paperclip2: 0, paperclip3: 0,
+    funds: 0,
+    market: 0,
+    wire1: 25, wire2: 0, wire3: 0,
+    autoclippers: 0,
+    producer:0, stabilizer: 0, amplifier: 0, instability:0, operations:0
+
+};
+
+
+function formatNumber(value) {
+  const suffixes = [
+    "", "K", "M", "B", "T",
+    "Qa","Qn","Sx","Sp","Oc","No",
+    "De","Ud","Dde","Tde","Qde","Qide","Sxde","Spde","Ocde","Node",
+    "Vg","Uvg","Dvg","Tvg","Qavg","Qnvg","Sxvg","Spvg","Ovg","Nvg",
+    "Tg","Utg","Dtg","Ttg","Qatg","Qntg","Sxtg","Sptg","Otg","Ntg",
+    "Qg","Uqg","Dqg","Tqg","Qaqg","Qnqg","Sxqg","Spqg","Oqg","Nqg",
+    "Pg","Upg","Dpg","Tpg","Qapg","Qnpg","Sxpg","Sppg","Opg","Npg",
+    "Hg","Uhg","Dhg","Thg","Qahg","Qnhg","Sxhg","Sphg","Ohg","Nhg",
+    "Sg","Usg","Dsg","Tsg","Qasg","Qnsg","Sxsg","Spsg","Osg","Nsg",
+    "Og","Uog","Dog","Tog","Qaog","Qnog","Sxog","Spog","Oog","Nog",
+    "Ng","Ung","Dng","Tng","Qang","Qnng","Sxng","Spng","Ong","Nng",
+    "Ce"
+  ];
+  if (value < 1000) return value.toString();
+  let tier = Math.floor(Math.log10(value) / 3);
+  let suffix = suffixes[tier] || ("e" + tier*3);
+  let scaled = value / Math.pow(10, tier * 3);
+  return scaled.toFixed(2).replace(/\.0$/,'') + "  " + suffix;
+}
+const formatDynamic = (n,d=2) => Number.isInteger(n) ? n.toString() : n.toFixed(d);
+let progress = 0
+  const bar1 = document.getElementById("barFill1");
+  const bar2 = document.getElementById("barFill2");
+  const bar3 = document.getElementById("barFill3");
+  const bar4 = document.getElementById("barFill4");
+
+function updui() { 
+gs.paperclip = (gs.paperclip1)+(gs.paperclip2)+(gs.paperclip3)
+bar1.style.width = progress + "%";
+bar2.style.width = count2 + "%";
+bar3.style.width = count3 + "%";
+bar4.style.width = count4 + "%";
+document.getElementById('v1all').innerText = formatNumber(formatDynamic(gs.paperclipall, 2));
+document.getElementById('v1').innerText = formatNumber(formatDynamic(gs.paperclip, 2));
+document.getElementById('v2').innerText = formatNumber(formatDynamic(plus2, 2));
+document.getElementById('funds').innerText = formatNumber(formatDynamic(gs.funds, 2));
+document.getElementById('demand').innerText = formatNumber(formatDynamic((demand*100), 3));
+document.getElementById('weather').innerText = formatNumber(formatDynamic((gs.weather), 2));
+document.getElementById('oxidation').innerText = formatNumber(formatDynamic((oxidation), 2));
+document.getElementById('marketlevel').innerText = formatNumber(formatDynamic((gs.market), 2));
+
+document.getElementById('wire1').innerText = formatNumber(formatDynamic((gs.wire1), 2));
+document.getElementById('wire2').innerText = formatNumber(formatDynamic((gs.wire2), 2));
+document.getElementById('wire3').innerText = formatNumber(formatDynamic((gs.wire3), 2));
+
+document.getElementById('v1a').innerText = formatNumber(formatDynamic(gs.paperclip1, 2));
+document.getElementById('v1b').innerText = formatNumber(formatDynamic(gs.paperclip2, 2));
+document.getElementById('v1c').innerText = formatNumber(formatDynamic(gs.paperclip3, 2));
+
+document.getElementById('v1price').innerText = formatNumber(formatDynamic(v1price, 2));
+document.getElementById('v2price').innerText = formatNumber(formatDynamic(v2price, 2));
+document.getElementById('v3price').innerText = formatNumber(formatDynamic(v3price, 2));
+
+document.getElementById("producerCount").innerText = gs.producer || 0;
+document.getElementById("stabilizerCount").innerText = gs.stabilizer || 0;
+document.getElementById("amplifierCount").innerText = gs.amplifier || 0;
+
+}
+
+let trig1 = false
+let trig2 = false
+let trig3 = false
+function progression() {
+  if (gs.paperclipall > 0 && trig1 == false) {
+    printWithLoading("You Unlocked the Business section");
+    trig1 = true}
+  if (gs.paperclipall > 10 && trig2 == false) {
+    printWithLoading("You Unlocked the Manufacture section");
+     trig2 = true}
+  if (gs.paperclipall > 250 && trig3 == false) {
+    printWithLoading("You Unlocked the Processor");
+     trig3 = true}
+  
+}
+
+ const term = document.getElementById("terminal");
+ const term2 = document.getElementById("terminal2");
+  const input = document.getElementById("inputLine");
+
+  function reset() {
+    let count = 0;
+    const interval = 300 / 5; // 600ms
+
+    const timer = setInterval(() => {
+        localStorage.removeItem("gs"); location.reload();
+        count++;
+        if (count >= 200) {
+            clearInterval(timer); // stop after 5 times
+        }
+    }, interval);
+}
+  function print(line) {
+    const last = term.querySelector(".current");
+    if (last) {
+      last.classList.remove("current");
+      last.classList.add("old");
+    }
+    const p = document.createElement("div");
+    p.style.color = "white";
+    p.className = "current";
+    p.textContent = `> ${line}`;
+    term.appendChild(p);
+    term.scrollTop = term.scrollHeight;
+  }
+  function printWithLoading(line, delay = 1500) {
+    const last = term.querySelector(".current");
+    if (last) {
+      last.classList.remove("current");
+      last.classList.add("old");
+    }
+
+    const div = document.createElement("div");
+    div.className = "current";
+    term.appendChild(div);
+
+    const frames = [".", "..", "..."];
+    let i = 0;
+
+    const interval = setInterval(() => {
+      div.textContent = frames[i % frames.length];
+      i++;
+    }, 400);
+
+    setTimeout(() => {
+      clearInterval(interval);
+      div.textContent = `> ${line}`;
+      term.scrollTop = term.scrollHeight;
+    }, delay);
+  }
+  function runCommand(cmd) {
+    if (!cmd.endsWith("/")) {
+      printWithLoading("Invalid: commands must end with '/'");
+      return;
+    }
+
+    const base = cmd.slice(0, -1).toLowerCase();
+
+    switch (base) {
+      case "help":
+        printWithLoading("Commands: help/ clear/ time/ date/ reset/");
+        break;
+      case "clear":
+        term.innerHTML = "";
+        break;
+         case "reset":
+        reset()
+        break;
+      case "time":
+        printWithLoading("Current time: " + new Date().toLocaleTimeString());
+        break;
+      case "date":
+        printWithLoading("Today's date: " + new Date().toLocaleDateString());
+        break;
+      default:
+        printWithLoading("Unknown command: " + base + "/");
+    }
+  }
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && input.value.trim() !== "") {
+      const command = input.value.trim();
+
+     print(command);  // uses same style as intro
+
+
+      input.value = "";
+      runCommand(command);
+    }
+  });
+  document.addEventListener("keydown", function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === "Backspace") {
+    e.preventDefault(); // stop browser's default action
+    reset();
+  }
+});
+function print2(line) {
+    const last = term2.querySelector(".current");
+    if (last) {
+      last.classList.remove("current");
+      last.classList.add("old2");
+    }
+    const p = document.createElement("div");
+    p.style.color = "white";
+    p.className = "current";
+    p.textContent = `> ${line}`;
+    term2.appendChild(p);
+    term2.scrollTop = term.scrollHeight;
+  }
+function addv1() {
+  if (progress <= 101) {
+    if (wusage === 3 && gs.wire3 > 0) {progress +=3.5} else if (wusage === 2 && gs.wire2 > 0) {progress +=5.5} else if (wusage === 1 && gs.wire1 > 0) {progress +=10}
+      if (progress >= 100 && wusage === 1 && gs.wire1 > 0) {
+        progress = 0;
+        gs.wire1 -=1
+        gs.paperclipall++;
+        gs.paperclip1++;
+        print2("You made 1 Copper Paperclip")
+      } else if (progress > 100 && wusage === 2 && gs.wire2 > 0) {
+         progress = 0;
+        gs.wire2 -=1
+        gs.paperclipall++;
+        gs.paperclip2++;
+        print2("You made 1 Iron Paperclip")
+  } else if (progress > 100 && wusage ===  3 && gs.wire3 > 0) {
+         progress = 0;
+        gs.wire3 -=1
+        gs.paperclipall++;
+        gs.paperclip3++;
+        print2("You made 1 S-Steel Paperclip")
+  }
+      updui()
+    }};
+let plus = 0
+let plus2 = 0
+function v1plus(){ if(plus>=0) plus++; }
+function v1minus(){ if(plus>=(1)) plus -=1; }
+
+function v2plus(){ if(plus2>=0) plus2++; }
+function v2minus(){ if(plus2>=(1)) plus2 -=1; }
+function sell() {
+  rng = Math.random()
+      if (gs.paperclip1 > 0 && rng <= demand && wusage === 1) {
+      gs.paperclip1 -= 1
+      gs.funds += v1price
+      print2(`You sold 1 (C) Paperclip For $ ${v1price.toFixed(2)}`)
+      } else if (gs.paperclip2 > 0 && rng <= demand && wusage === 2) {
+        gs.paperclip2 -= 1
+      gs.funds += v1price
+      print2(`You sold 1 (I) Paperclip For $ ${v1price.toFixed(2)}`)
+      }else if (gs.paperclip3 > 0 && rng <= demand && wusage === 3) {
+        gs.paperclip3 -= 1
+      gs.funds += v1price
+      print2(`You sold 1 (SS) Paperclip For $ ${v1price.toFixed(2)}`)
+      }
+    };
+let rng = Math.random();
+let rngw = Math.random();
+
+function addWire(type) {
+  // set price based on chosen wire
+  if (type === 1) {wprice = 1; print2("You Picked Copper Wire")};  // copper
+  if (type === 2) {wprice = 12.5; print2("You Picked Iron Wire")} // iron
+  if (type === 3) {wprice = 35; print2("You Picked S-Steel Wire")} // steel
+
+  updui();
+}
+let wusage = 1
+
+function useWire(type2) {
+  if (type2 === 1) {wusage = 1; print2("You are using Copper Wire")}  // copper
+  if (type2 === 2) {wusage = 2; print2("You are using Iron Wire")}// iron
+  if (type2 === 3) {wusage = 3; print2("You are using S-Steel Wire")}  // steel
+
+  updui();
+}
+
+function addv2() {
+  if (gs.funds >= v2price && plus2 > 0 && wprice ==  1)  {
+    gs.wire1 += plus2
+    gs.funds -= v2price;
+    print2(`You Bought ${plus2} Copper Wires for $ ${v2price.toFixed(2)}`)
+  } else if (gs.funds >= v2price && plus2 > 0 && wprice ==  12.5) {
+    gs.wire2 += plus2
+    gs.funds -= v2price;
+    print2(`You Bought ${plus2} Iron Wires for $ ${v2price.toFixed(2)}`)
+  }  else if (gs.funds >= v2price && plus2 > 0 && wprice ==  35) {
+    gs.wire3 += plus2
+    gs.funds -= v2price;
+    print2(`You Bought ${plus2} S-Steel Wires for $ ${v2price.toFixed(2)}`)
+  }
+}
+
+function addv3() {
+  if (gs.funds >= v3price) {
+    gs.funds -= v3price;
+    v3price0add +=1.5
+    gs.market +=1
+  }
+}
+
+let v1price = 0.01;
+let demand = 0.1;
+let oxidation = 0;
+let v2price = 0;
+let v3price = 0;
+let wprice = 1
+
+const prog1 = document.getElementById("prog1");
+const prog2 = document.getElementById("prog2");
+const prog3 = document.getElementById("prog3");
+const prog4 = document.getElementById("prog4");
+
+
+let v3price0add = 1
+
+  function SIgroup(){
+
+    if (gs.paperclipall > 0) {prog1.style.opacity = "1"} 
+    if (gs.paperclipall > 10) {prog2.style.opacity = "1"}
+    if (gs.paperclipall > 250) {prog3.style.opacity = "1"}
+
+    if (v1price >= 10) {v1pricenerf = 2 }else if (v1price >= 5) {v1pricenerf = 1.45} else if (v1price >= 1) {v1pricenerf = 1.1} else if (v1price >= 0.5) {v1pricenerf = 0.92} else {v1pricenerf = 0.78}
+    if (gs.instability > 0) {gs.instability -= 0.1}
+    if (progress > 0) {progress-=1}
+    //equation
+    gs.paperclip = (gs.paperclip1)+(gs.paperclip2)+(gs.paperclip3)
+    v1price = (0.01)+(plus/100)
+    v2price = Math.max(0, 0.05 * plus2 *(wprice));
+    v3price = (12)*(v3price0add)
+    demand =((0.85)*(((gs.weather)+10)/10)*((wusage+9)/10))/(Math.pow((v1price*101), (v1pricenerf-(gs.market/50))));
+    oxidation = (0.01)*(Math.abs(gs.weather))
+
+
+
+    localStorage.setItem("gs",JSON.stringify(gs));
+    progression()
+    updui()
+}
+function weatherrng(){
+  rngw = (Math.random())
+      if (rngw >= 0.98) gs.weather = 5;
+else if (rngw >= 0.95) gs.weather = 3.5;
+else if (rngw >= 0.85) gs.weather = 3;
+else if (rngw >= 0.70) gs.weather = 2;
+else if (rngw >= 0.65) gs.weather = 1;
+else if (rngw >= 0.50) gs.weather = 0;
+
+      };
+  let count4 = 0
+  let count2 = 0
+  let count3 = 0
+
+  // intro
+  printWithLoading("Welcome to the terminal!", 2000);
+  setTimeout(() => printWithLoading("Loading resources...", 2000), 3500);
+  setTimeout(() => printWithLoading("Welcome to the Matrix.", 2000), 7000);
+window.onload = function(){
+  localStorage.setItem("gs", JSON.stringify(gs));
+  setInterval(SIgroup, 130);
+  updui();
+
+      count4 = 0
+  const interval3 = 120000 / 100;
+    const timer3 = setInterval(() => {
+        count4++;
+   if (count4 >= 100) {
+    count4 = 0
+    weatherrng()
+   }
+   }
+  , interval3)
+
+
+      count3 = 0
+  const interval1 = 10000 / 100;
+    const timer1 = setInterval(() => {
+        count3++;
+   if (count3 >= 100) {
+    count3 = 0
+    if (gs.wire1 > 1) {gs.wire1 -= (oxidation*25)};
+    if (gs.wire2 > 1) {gs.wire2 -= (oxidation*5)};
+    if (gs.wire3 > 1) {gs.wire3 -= (oxidation)};{
+   }
+   }
+  }, interval1)
+
+  count2 = 0
+  const interval2 = 450 / 100;
+    const timer2 = setInterval(() => {
+        count2++;
+        if (count2 >= 100) {
+            count2 = 0
+            sell()
+        }
+    }, interval2);
+  }
+
+
+
+
+  //__
+
+const grid = document.getElementById("grid");
+grid.innerHTML = ""; // clear any old nodes
+
+// ensure the gs fields exist
+gs.producer = gs.producer || 0;
+gs.stabilizer = gs.stabilizer || 0;
+gs.amplifier = gs.amplifier || 0;
+gs.instability = gs.instability || 0;
+gs.operations = gs.operations || 0;
+
+const cells = [];
+let activeItem = null; // currently selected item type to place ("producer"/"stabilizer"/"amplifier")
+
+// create 5x5 grid cells
+for (let i = 0; i < 25; i++) {
+  const cell = document.createElement("div");
+  cell.className = "cell";
+  cell.dataset.index = i; // store index for adjacency checks
+  cell.dataset.item = ""; // empty initially
+
+  cell.addEventListener("click", () => {
+    // If we are in placement mode (activeItem set) and we own at least one item
+    if (activeItem) {
+      if (gs[activeItem] > 0) {
+        if (!cell.dataset.item) { // only place on empty cell
+          cell.dataset.item = activeItem;
+          cell.classList.add(activeItem);
+          gs[activeItem]-= 1;     // consume 1 from inventory
+          grid.dataset.placing = ""; // clear visual placing flag
+          updui();              // refresh UI
+        } else {
+          // cell already contains an item
+          // you could allow swapping if you want; for now ignore
+        }
+      } else {
+        print("You don't own any " + activeItem + "s.");
+        activeItem = null;
+        grid.dataset.placing = "";
+      }
+      return;
+    }
+
+    // If not placing, allow inspecting or removing an item (optional)
+    // Right now clicking without activeItem does nothing (could be used to remove)
+  });
+
+  grid.appendChild(cell);
+  cells.push(cell);
+}
+
+function buyItem(type) {
+  // simple example costs (adjust to taste)
+  const costTable = { producer: 20, stabilizer: 25, amplifier: 120 };
+  const cost = costTable[type] || 50;
+  if (gs.funds >= cost) {
+    gs.funds -= cost;
+    gs[type] = (gs[type] || 0) + 1;
+    updui();
+  } else {
+    print("Not enough funds to buy " + type + " (cost: $" + cost + ").");
+  }
+}
+
+function useItem(type) {
+  if ((gs[type] || 0) > 0) {
+    activeItem = type;
+    // visual cue: set data attribute so you can style #grid[data-placing="producer"] if desired
+    grid.dataset.placing = type;
+    // optionally highlight available placement cells (not implemented here)
+  } else {
+    print("You don't own any " + type + "s to place.");
+  }
+}
+
+// adjacency helper (returns neighbor indices up/down/left/right)
+function neighbors(index) {
+  const row = Math.floor(index / 5);
+  const col = index % 5;
+  const n = [];
+  if (row > 0) n.push(index - 5);
+  if (row < 4) n.push(index + 5);
+  if (col > 0) n.push(index - 1);
+  if (col < 4) n.push(index + 1);
+  return n;
+}
+
+// PER-SECOND circuit evaluation: producers create operations and instability
+// Amplifiers increase a producer's output, stabilizers cancel instability for adjacent producers
+setInterval(() => {
+  let addedOps = 0;
+  let addedInst = 0;
+
+  cells.forEach((cell, i) => {
+    const item = cell.dataset.item;
+    if (item === "producer") {
+      // base output and instability
+      let baseOutput = 1;
+      let baseInst = 2;
+
+      // check adjacency for amplifier(s) and stabilizer(s)
+      let ampCount = 0;
+      let stabilized = false;
+      neighbors(i).forEach(n => {
+        const neighborItem = cells[n].dataset.item;
+        if (neighborItem === "amplifier") ampCount++;
+        if (neighborItem === "stabilizer") stabilized = true;
+      });
+
+      const multiplier = 1 + ampCount; // amplifier(s) add +1 output each (so 1 amp => x2)
+      addedOps += baseOutput * multiplier;
+      if (!stabilized) addedInst += baseInst * multiplier;
+      // if stabilized, instability contribution for that producer is 0
+    }
+  });
+
+  // apply results
+  gs.operations = (gs.operations || 0) + addedOps;
+  gs.instability = (gs.instability || 0) + addedInst;
+
+  // If instability reaches 100, wipe placed items (fail state)
+  if (gs.instability >= 100) {
+    print("! SYSTEM FAILURE: instability reached 100 — circuit reset.");
+    // clear placed items visually and in data
+    cells.forEach(c => {
+      c.className = "cell";   // remove color classes
+      c.dataset.item = "";
+    });
+    // reset instability and operations if you want
+    gs.instability = 0;
+    // you might want to also take a penalty on funds/operations etc - up to you
+  }
+
+  updui();
+}, 1000);
+
+// Ensure UI displays the circuit-specific counts (called inside your updui function too)
+function upduiCircuit() {
+  const p = document.getElementById("producerCount");
+  const s = document.getElementById("stabilizerCount");
+  const a = document.getElementById("amplifierCount");
+  const inst = document.getElementById("instability");
+  const op = document.getElementById("operations");
+  if (p) p.innerText = (gs.producer || 0);
+  if (s) s.innerText = (gs.stabilizer || 0);
+  if (a) a.innerText = (gs.amplifier || 0);
+  if (op) op.innerText = (gs.operations || 0);
+  if (inst) inst.innerText = Math.floor(gs.instability || 0);
+}
+
+// Patch your previously-defined updui to call this circuit UI updater if it exists
+const oldUpdui = window.updui;
+window.updui = function() {
+  try { if (typeof oldUpdui === "function") oldUpdui(); } catch(e) { /*ignore*/ }
+  upduiCircuit();
+};
+
+// initial UI refresh
+updui();
+</script>
+
+
+
+</script>
+
+</html>
