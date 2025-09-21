@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <audio id="bg-music" src="music1.mp3" autoplay loop ></audio>
     <title>Document</title>
 </head>
 <body>
@@ -33,7 +34,13 @@
     <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Business</b>
     <hr style="margin: 0;">
 
-    <div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 2px;">Available Funds:  $ <span id="funds">0</span></div>
+   <div style="display: flex; gap: 4px; margin-top: 4px;">
+     <div style="margin-top: 2px; font-size: 14.5px;">Music:</div>
+    <button onclick="playMusic()" id="b">Play</button>
+  <button onclick="pauseMusic()" id="b">Pause</button>
+  <button onclick="toggleMusic()" id="b">Toggle</button>
+   </div>
+    <div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 4px;">Available Funds:  $ <span id="funds">0</span></div>
 
     <div style="display: flex;  margin-bottom: 2px;">
         <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px;" onclick="v1plus()" id="b" >+</button>
@@ -42,8 +49,8 @@
     </div>
 
      <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Public Demand:  <span id="demand"> 0 </span> %</div>
-     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Sell-Rate: <span id="sellspeed"> 0.45 </span> s</div>
-     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Demand-Margin: <span id="sellspeed"> 28 </span> Pieces</div>
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Sell-Rate: <span id="sellspeed"> 0.65 </span> s</div>
+     <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Demand-Margin: <span id="demand0m"> 28 </span> Pieces</div>
      <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Weather: Paperclip (<span id="weather"> 0 </span>) </div>
      <div id="barContainer"><div id="barFill4" class="barFill3" style="height: 5px; margin-bottom: 3px; "></div></div>
 
@@ -95,11 +102,12 @@
 
 </div>
 
-<div class="leftcolumn" id="prog3" style="opacity: 0;">
+<div class="leftcolumn" id="prog3" style="opacity: 0; width: 500px;">
   <div class="businesspart">
-    <b style="font-size: 15px; display: block; margin-bottom: 2px; width: 375px; ">Processor</b>
+    <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Processor</b>
     <hr style="margin: 0;">
-    <p>Operations: <span id="operations">0</span> OP</p>
+     <p>Operations: <span id="operations">0</span></p>
+  <p>Instability: <span id="instability">0</span>%</p>
     <div id="grid"></div>
 
 
@@ -108,31 +116,63 @@
     <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Circuit-Board</b>
     <hr style="margin: 0;">
     <div>
-  <p>Producers: <span id="producerCount">0</span> 
-  <button onclick="buyItem('producer')" id="b"  >Buy</button> 
-  <button onclick="useItem('producer')" id="b">Use</button>
-</p>
+  <div class="circuit-ui" style="display: flex; gap: 20px;">
 
-<p>Stabilizers: <span id="stabilizerCount">0</span> 
-  <button onclick="buyItem('stabilizer')" id="b">Buy</button> 
-  <button onclick="useItem('stabilizer')" id="b">Use</button>
-</p>
+   <div>
+      <p>Energy Producers: <span id="producerEnergyCount">0</span> 
+    <button onclick="buyItem('producer_energy')" id="b">Buy</button> 
+    <button onclick="useItem('producer_energy')" id="b">Use</button>
+  </p>
 
-<p>Amplifiers: <span id="amplifierCount">0</span> 
-  <button onclick="buyItem('amplifier')" id="b">Buy</button> 
-  <button onclick="useItem('amplifier')" id="b">Use</button>
-</p>
+      <p>Producers: <span id="producerDataCount">0</span> 
+    <button onclick="buyItem('producer_data')" id="b">Buy</button> 
+    <button onclick="useItem('producer_data')" id="b">Use</button>
+  </p>
 
-  <p>Instability: <span id="instability">0</span>%</p>
-</div>
+  <p>E-Producers: <span id="producerExoticCount">0</span> 
+    <button onclick="buyItem('producer_exotic')" id="b">Buy</button> 
+    <button onclick="useItem('producer_exotic')" id="b">Use</button>
+  </p>
 
+  <p>Amplifiers: <span id="amplifierCount">0</span> 
+    <button onclick="buyItem('amplifier')" id="b">Buy</button> 
+    <button onclick="useItem('amplifier')" id="b">Use</button>
+  </p>
 
-    <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv2()">Purchase a Wire</button>
+  <p>Stabilizers: <span id="stabilizerCount">0</span> 
+    <button onclick="buyItem('stabilizer')" id="b">Buy</button> 
+    <button onclick="useItem('stabilizer')" id="b">Use</button>
+  </p>
+    </div>
+  <div>
+    <p>Capacitors: <span id="capacitorCount">0</span> 
+    <button onclick="buyItem('capacitor')" id="b">Buy</button> 
+    <button onclick="useItem('capacitor')" id="b">Use</button>
+  </p>
+
+  <p>Filters: <span id="filterCount">0</span> 
+    <button onclick="buyItem('filter')" id="b">Buy</button> 
+    <button onclick="useItem('filter')" id="b">Use</button>
+  </p>
+
+  <p>Regulators: <span id="regulatorCount">0</span> 
+    <button onclick="buyItem('regulator')" id="b">Buy</button> 
+    <button onclick="useItem('regulator')" id="b">Use</button>
+  </p>
+
+  <p>Oscillators: <span id="oscillatorCount">0</span> 
+    <button onclick="buyItem('oscillator')" id="b">Buy</button> 
+    <button onclick="useItem('oscillator')" id="b">Use</button>
+  </p>
+
+  <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv2()">Purchase a Wire</button>
     <div style="display: flex;  margin-bottom: 19px;">
         <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px;;" onclick="v2plus()" id="b" >+</button>
           <div style="font-size: 13.5px; border: solid 1.1px rgb(0, 0, 0); padding-left: 5px; margin: 1px; width: auto; justify-items: center; align-content: center;"><div style="padding-right: 5px;">T<span>0</span>: $ <span id="v2price">20</span></div></div>
           <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px; " onclick="v2minus()" id="b">-</button>
     </div>
+  </div>
+</div>
     
 </div>
 
@@ -146,7 +186,7 @@
 
 <script>
     let gs = JSON.parse(localStorage.getItem("gs")) || {
-    paperclipall: 0, weather: 0,
+    paperclipall: 0, weather: 0, pollution0t: 0.01,
     paperclip: 0, paperclip1: 0, paperclip2: 0, paperclip3: 0,
     funds: 0,
     market: 0,
@@ -196,6 +236,7 @@ document.getElementById('v1').innerText = formatNumber(formatDynamic(gs.papercli
 document.getElementById('v2').innerText = formatNumber(formatDynamic(plus2, 2));
 document.getElementById('funds').innerText = formatNumber(formatDynamic(gs.funds, 2));
 document.getElementById('demand').innerText = formatNumber(formatDynamic((demand*100), 3));
+document.getElementById('demand0m').innerText = formatNumber(formatDynamic(((demand0mmax)), 0));
 document.getElementById('weather').innerText = formatNumber(formatDynamic((gs.weather), 2));
 document.getElementById('oxidation').innerText = formatNumber(formatDynamic((oxidation), 2));
 document.getElementById('marketlevel').innerText = formatNumber(formatDynamic((gs.market), 2));
@@ -218,6 +259,25 @@ document.getElementById("amplifierCount").innerText = gs.amplifier || 0;
 
 }
 
+const bgMusic = document.getElementById("bg-music");
+bgMusic.volume = 0.45;
+
+function playMusic() {
+      bgMusic.play();
+    }
+
+    function pauseMusic() {
+      bgMusic.pause();
+    }
+
+    function toggleMusic() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+      } else {
+        bgMusic.pause();
+      }
+    }
+
 let trig1 = false
 let trig2 = false
 let trig3 = false
@@ -231,6 +291,22 @@ function progression() {
   if (gs.paperclipall > 250 && trig3 == false) {
     printWithLoading("You Unlocked the Processor");
      trig3 = true}
+  if (gs.paperclipall > 100 && gs.pollution0t == 0.01) {
+    printWithLoading("Pollution has increased... + 0.01% Oxidiation Rate");
+    gs.pollution0t = 0.02
+    }
+  if (gs.paperclipall > 500 && gs.pollution0t == 0.02) {
+    printWithLoading("Pollution has increased... + 0.01% Oxidiation Rate");
+    gs.pollution0t = 0.03
+    }
+   if (gs.paperclipall > 500 && gs.pollution0t == 0.03) {
+    printWithLoading("Pollution has increased... + 0.02% Oxidiation Rate");
+    gs.pollution0t = 0.05
+    }
+   if (gs.paperclipall > 2500 && gs.pollution0t == 0.05) {
+    printWithLoading("Pollution has increased... + 0.02% Oxidiation Rate");
+    gs.pollution0t = 0.07
+    }
   
 }
 
@@ -294,11 +370,41 @@ function progression() {
       return;
     }
 
+
     const base = cmd.slice(0, -1).toLowerCase();
 
     switch (base) {
       case "help":
         printWithLoading("Commands: help/ clear/ time/ date/ reset/");
+        break;
+      case "guide1":
+        print("=== GUIDE 1: Paperclip Economy ===");
+  print("You start with funds and can make paperclips manually.");
+  print("Each paperclip costs wire to make. Wire is limited and must be bought.");
+  print("Paperclips are sold automatically based on market demand and price.");
+  print("You can adjust price to balance sales speed and profit.");
+  print("The market demand changes dynamically.");
+  print("The Margin Demand is the maximum paperclip can be bought each time its succesfully sold.");
+  print("Funds increase when you sell clips, letting you buy more wire or upgrades.");
+  print("Keep balancing production, price, and supply to grow your paperclip empire.");
+  print("Processors unlock later, leading to advanced features.");
+        break;
+      case "guide2":
+        print("=== GUIDE 2: Circuit Mechanics ===");
+  print("The circuit is a 7x7 grid where you place components.");
+  print("Operations are generated by Producers:");
+  print(" - Energy Producer: outputs , moderate instability.");
+  print(" - Data Producer: balanced output, low instability.");
+  print(" - Exotic Producer: high ops, but huge instability.");
+  print("Amplifier: boosts output of nearby producers, but multiplies instability.");
+  print("Stabilizer: halves instability of nearby producers.");
+  print("Capacitor: absorbs instability up to a limit, then discharges it later.");
+  print("Filter: reduces instability further, but also lowers operations.");
+  print("Regulator: keeps instability lower, but reduces throughput.");
+  print("Oscillator: huge burst of ops, but causes chaos and spikes instability.");
+  print("Instability rises as circuits run. Above 50%, cascades can happen.");
+  print("If instability reaches 100, the circuit explodes and resets.");
+  print("Balance your placement of stabilizers, filters, and regulators to sustain production.");
         break;
       case "clear":
         term.innerHTML = "";
@@ -327,12 +433,6 @@ function progression() {
       runCommand(command);
     }
   });
-  document.addEventListener("keydown", function(e) {
-  if (e.ctrlKey && e.shiftKey && e.key === "Backspace") {
-    e.preventDefault(); // stop browser's default action
-    reset();
-  }
-});
 function print2(line) {
     const last = term2.querySelector(".current");
     if (last) {
@@ -344,53 +444,66 @@ function print2(line) {
     p.className = "current";
     p.textContent = `> ${line}`;
     term2.appendChild(p);
-    term2.scrollTop = term.scrollHeight;
+    term2.scrollTop = term2.scrollHeight;
   }
+
+
+  //____________________________________________________________////
+
+let clipon = false
 function addv1() {
-  if (progress <= 101) {
-    if (wusage === 3 && gs.wire3 > 0) {progress +=3.5} else if (wusage === 2 && gs.wire2 > 0) {progress +=5.5} else if (wusage === 1 && gs.wire1 > 0) {progress +=10}
+  if (progress <= 101 && clipon == false) {
+    if (wusage === 5 && gs.wire3 > 0) {progress +=3.5} else if (wusage === 2.5 && gs.wire2 > 0) {progress +=7} else if (wusage === 1 && gs.wire1 > 0) {progress +=11}
       if (progress >= 100 && wusage === 1 && gs.wire1 > 0) {
         progress = 0;
         gs.wire1 -=1
         gs.paperclipall++;
         gs.paperclip1++;
         print2("You made 1 Copper Paperclip")
-      } else if (progress > 100 && wusage === 2 && gs.wire2 > 0) {
+      } else if (progress > 100 && wusage === 2.5 && gs.wire2 > 0) {
          progress = 0;
         gs.wire2 -=1
         gs.paperclipall++;
         gs.paperclip2++;
         print2("You made 1 Iron Paperclip")
-  } else if (progress > 100 && wusage ===  3 && gs.wire3 > 0) {
+  } else if (progress > 100 && wusage ===  5 && gs.wire3 > 0) {
          progress = 0;
         gs.wire3 -=1
         gs.paperclipall++;
         gs.paperclip3++;
         print2("You made 1 S-Steel Paperclip")
   }
+
+   clipon = true;
+  setTimeout(() => { clipon = false; }, 150);
       updui()
     }};
-let plus = 0
+let plus = 24
 let plus2 = 0
-function v1plus(){ if(plus>=0) plus++; }
-function v1minus(){ if(plus>=(1)) plus -=1; }
+function v1plus(){ if(plus>=0) plus++; updui()}
+function v1minus(){ if(plus>=(1)) plus -=1; updui()}
 
 function v2plus(){ if(plus2>=0) plus2++; }
 function v2minus(){ if(plus2>=(1)) plus2 -=1; }
+
+let demand0m = 1
+let demand0mmax = 1
 function sell() {
+   demand0mmax = ((Math.max(1, ((25*(Math.pow((gs.market+10)/10,2))*((wusage+1)/2))/(v1price*100)))));
+  demand0m = Math.min((((Math.random()+0.1)*(demand0mmax.toFixed(0))).toFixed(0)), gs[paperclipselect])
   rng = Math.random()
-      if (gs.paperclip1 > 0 && rng <= demand && wusage === 1) {
-      gs.paperclip1 -= 1
-      gs.funds += v1price
-      print2(`You sold 1 (C) Paperclip For $ ${v1price.toFixed(2)}`)
-      } else if (gs.paperclip2 > 0 && rng <= demand && wusage === 2) {
-        gs.paperclip2 -= 1
-      gs.funds += v1price
-      print2(`You sold 1 (I) Paperclip For $ ${v1price.toFixed(2)}`)
-      }else if (gs.paperclip3 > 0 && rng <= demand && wusage === 3) {
-        gs.paperclip3 -= 1
-      gs.funds += v1price
-      print2(`You sold 1 (SS) Paperclip For $ ${v1price.toFixed(2)}`)
+      if (gs.paperclip1 > 0 && rng <= demand && wusage === 1 && demand0m > 0) {
+      gs.paperclip1 -= 1 *demand0m
+      gs.funds += v1price * demand0m
+      print2(`You sold ${demand0m} (C) Paperclip For $ ${(v1price * demand0m).toFixed(2)}`)
+      } else if (gs.paperclip2 > 0 && rng <= demand && wusage === 2.5 && demand0m > 0) {
+        gs.paperclip2 -= 1 *demand0m
+      gs.funds += v1price * demand0m
+      print2(`You sold ${demand0m} (I) Paperclip For $ ${(v1price * demand0m).toFixed(2)}`)
+      }else if (gs.paperclip3 > 0 && rng <= demand && wusage === 5 && demand0m > 0) {
+        gs.paperclip3 -= 1 *demand0m
+      gs.funds += v1price * demand0m
+      print2(`You sold ${demand0m} (SS) Paperclip For $ ${(v1price * demand0m).toFixed(2)}`)
       }
     };
 let rng = Math.random();
@@ -399,17 +512,24 @@ let rngw = Math.random();
 function addWire(type) {
   // set price based on chosen wire
   if (type === 1) {wprice = 1; print2("You Picked Copper Wire")};  // copper
-  if (type === 2) {wprice = 12.5; print2("You Picked Iron Wire")} // iron
-  if (type === 3) {wprice = 35; print2("You Picked S-Steel Wire")} // steel
+  if (type === 2) {wprice = 6; print2("You Picked Iron Wire")} // iron
+  if (type === 3) {wprice = 15; print2("You Picked S-Steel Wire")} // steel
 
   updui();
 }
 let wusage = 1
+let paperclipselect = "paperclip1"
 
 function useWire(type2) {
-  if (type2 === 1) {wusage = 1; print2("You are using Copper Wire")}  // copper
-  if (type2 === 2) {wusage = 2; print2("You are using Iron Wire")}// iron
-  if (type2 === 3) {wusage = 3; print2("You are using S-Steel Wire")}  // steel
+  if (type2 === 1) {wusage = 1;
+     print2("You are using Copper Wire");
+      paperclipselect = "paperclip1"}  // copper
+  if (type2 === 2) {wusage = 2.5;
+     print2("You are using Iron Wire");
+      paperclipselect = "paperclip2"}// iron
+  if (type2 === 3) {wusage = 5;
+     print2("You are using S-Steel Wire");
+      paperclipselect = "paperclip3"}  // steel
 
   updui();
 }
@@ -419,11 +539,11 @@ function addv2() {
     gs.wire1 += plus2
     gs.funds -= v2price;
     print2(`You Bought ${plus2} Copper Wires for $ ${v2price.toFixed(2)}`)
-  } else if (gs.funds >= v2price && plus2 > 0 && wprice ==  12.5) {
+  } else if (gs.funds >= v2price && plus2 > 0 && wprice ==  6) {
     gs.wire2 += plus2
     gs.funds -= v2price;
     print2(`You Bought ${plus2} Iron Wires for $ ${v2price.toFixed(2)}`)
-  }  else if (gs.funds >= v2price && plus2 > 0 && wprice ==  35) {
+  }  else if (gs.funds >= v2price && plus2 > 0 && wprice ==  15) {
     gs.wire3 += plus2
     gs.funds -= v2price;
     print2(`You Bought ${plus2} S-Steel Wires for $ ${v2price.toFixed(2)}`)
@@ -431,10 +551,10 @@ function addv2() {
 }
 
 function addv3() {
-  if (gs.funds >= v3price) {
+  if (gs.funds >= v3price && gs.market < 30) {
     gs.funds -= v3price;
-    v3price0add +=1.5
     gs.market +=1
+    print(`Marketing level is now level ${gs.market}`)
   }
 }
 
@@ -450,25 +570,22 @@ const prog2 = document.getElementById("prog2");
 const prog3 = document.getElementById("prog3");
 const prog4 = document.getElementById("prog4");
 
-
-let v3price0add = 1
-
   function SIgroup(){
 
     if (gs.paperclipall > 0) {prog1.style.opacity = "1"} 
     if (gs.paperclipall > 10) {prog2.style.opacity = "1"}
     if (gs.paperclipall > 250) {prog3.style.opacity = "1"}
 
-    if (v1price >= 10) {v1pricenerf = 2 }else if (v1price >= 5) {v1pricenerf = 1.45} else if (v1price >= 1) {v1pricenerf = 1.1} else if (v1price >= 0.5) {v1pricenerf = 0.92} else {v1pricenerf = 0.78}
+    if (v1price >= 10) {v1pricenerf = 2 }else if (v1price >= 5) {v1pricenerf = 1.45} else if (v1price >= 1) {v1pricenerf = 1.1} else if (v1price >= 0.5) {v1pricenerf = 0.95} else {v1pricenerf = 0.78}
     if (gs.instability > 0) {gs.instability -= 0.1}
     if (progress > 0) {progress-=1}
     //equation
     gs.paperclip = (gs.paperclip1)+(gs.paperclip2)+(gs.paperclip3)
     v1price = (0.01)+(plus/100)
     v2price = Math.max(0, 0.05 * plus2 *(wprice));
-    v3price = (12)*(v3price0add)
-    demand =((0.85)*(((gs.weather)+10)/10)*((wusage+9)/10))/(Math.pow((v1price*101), (v1pricenerf-(gs.market/50))));
-    oxidation = (0.01)*(Math.abs(gs.weather))
+    v3price = ((10)*((gs.market+7)/7))*(Math.pow(((gs.market+10)/10),2))
+    demand =((0.85+((gs.market)/40))*(((gs.weather)+10)/10)*((wusage+9)/10))/(Math.pow((v1price*101), (v1pricenerf-(gs.market/50))));
+    oxidation = ((gs.pollution0t)*(Math.abs(gs.weather)))
 
 
 
@@ -496,7 +613,7 @@ else if (rngw >= 0.50) gs.weather = 0;
   setTimeout(() => printWithLoading("Welcome to the Matrix.", 2000), 7000);
 window.onload = function(){
   localStorage.setItem("gs", JSON.stringify(gs));
-  setInterval(SIgroup, 130);
+  setInterval(SIgroup, 155);
   updui();
 
       count4 = 0
@@ -525,7 +642,7 @@ window.onload = function(){
   }, interval1)
 
   count2 = 0
-  const interval2 = 450 / 100;
+  const interval2 = 650 / 100;
     const timer2 = setInterval(() => {
         count2++;
         if (count2 >= 100) {
@@ -538,166 +655,220 @@ window.onload = function(){
 
 
 
-  //__
+//______________________________________________________________________________________________________________ ..........
+//______________________________________________________________________________________________________________ ..........
+//______________________________________________________________________________________________________________ ..........
+
 
 const grid = document.getElementById("grid");
-grid.innerHTML = ""; // clear any old nodes
+grid.innerHTML = "";
 
-// ensure the gs fields exist
-gs.producer = gs.producer || 0;
-gs.stabilizer = gs.stabilizer || 0;
-gs.amplifier = gs.amplifier || 0;
+// ensure fields exist
+[
+  "producer_energy","producer_data","producer_exotic",
+  "amplifier","stabilizer","capacitor","filter","regulator","oscillator"
+].forEach(k => gs[k] = gs[k] || 0);
+
 gs.instability = gs.instability || 0;
-gs.operations = gs.operations || 0;
+gs.operations  = gs.operations  || 0;
 
 const cells = [];
-let activeItem = null; // currently selected item type to place ("producer"/"stabilizer"/"amplifier")
+let activeItem = null;
 
-// create 5x5 grid cells
-for (let i = 0; i < 25; i++) {
+// build 5x5 grid
+for (let i = 0; i < 49; i++) {
   const cell = document.createElement("div");
   cell.className = "cell";
-  cell.dataset.index = i; // store index for adjacency checks
-  cell.dataset.item = ""; // empty initially
+  cell.dataset.index = i;
+  cell.dataset.item = "";
+  cell.dataset.capBuffer = "0";
 
   cell.addEventListener("click", () => {
-    // If we are in placement mode (activeItem set) and we own at least one item
     if (activeItem) {
       if (gs[activeItem] > 0) {
-        if (!cell.dataset.item) { // only place on empty cell
+        if (!cell.dataset.item) {
           cell.dataset.item = activeItem;
           cell.classList.add(activeItem);
-          gs[activeItem]-= 1;     // consume 1 from inventory
-          grid.dataset.placing = ""; // clear visual placing flag
-          updui();              // refresh UI
-        } else {
-          // cell already contains an item
-          // you could allow swapping if you want; for now ignore
+          gs[activeItem] -= 1;
+          updui();
+        } else if (cell.dataset.item === activeItem) {
+          // remove + refund
+          cell.classList.remove(activeItem);
+          cell.dataset.item = "";
+          gs[activeItem] += 1;
+          updui();
         }
       } else {
-        print("You don't own any " + activeItem + "s.");
+        print("No " + activeItem + "s available.");
         activeItem = null;
-        grid.dataset.placing = "";
       }
       return;
     }
-
-    // If not placing, allow inspecting or removing an item (optional)
-    // Right now clicking without activeItem does nothing (could be used to remove)
   });
 
   grid.appendChild(cell);
   cells.push(cell);
-}
+};
 
 function buyItem(type) {
-  // simple example costs (adjust to taste)
-  const costTable = { producer: 20, stabilizer: 25, amplifier: 120 };
+  const costTable = {
+    producer_energy: 20, producer_data: 25, producer_exotic: 120,
+    amplifier: 30, stabilizer: 25, capacitor: 40,
+    filter: 36, regulator: 28, oscillator: 140
+  };
   const cost = costTable[type] || 50;
   if (gs.funds >= cost) {
     gs.funds -= cost;
-    gs[type] = (gs[type] || 0) + 1;
+    gs[type] += 1;
     updui();
   } else {
-    print("Not enough funds to buy " + type + " (cost: $" + cost + ").");
+    print("Not enough funds for " + type + " ($" + cost + ")");
   }
 }
 
 function useItem(type) {
-  if ((gs[type] || 0) > 0) {
-    activeItem = type;
-    // visual cue: set data attribute so you can style #grid[data-placing="producer"] if desired
-    grid.dataset.placing = type;
-    // optionally highlight available placement cells (not implemented here)
-  } else {
-    print("You don't own any " + type + "s to place.");
-  }
+  if ((gs[type] || 0) > 0) activeItem = type;
+  else print("You don't own any " + type + "s.");
 }
 
-// adjacency helper (returns neighbor indices up/down/left/right)
 function neighbors(index) {
   const row = Math.floor(index / 5);
   const col = index % 5;
   const n = [];
-  if (row > 0) n.push(index - 5);
-  if (row < 4) n.push(index + 5);
-  if (col > 0) n.push(index - 1);
-  if (col < 4) n.push(index + 1);
+  for (let dr=-1; dr<=1; dr++) {
+    for (let dc=-1; dc<=1; dc++) {
+      if (dr===0 && dc===0) continue;
+      const r = row+dr, c = col+dc;
+      if (r>=0 && r<5 && c>=0 && c<5) n.push(r*5+c);
+    }
+  }
   return n;
 }
 
-// PER-SECOND circuit evaluation: producers create operations and instability
-// Amplifiers increase a producer's output, stabilizers cancel instability for adjacent producers
 setInterval(() => {
   let addedOps = 0;
   let addedInst = 0;
 
-  cells.forEach((cell, i) => {
+  cells.forEach((cell,i) => {
     const item = cell.dataset.item;
-    if (item === "producer") {
-      // base output and instability
-      let baseOutput = 1;
-      let baseInst = 2;
+    if (item.startsWith("producer")) {
+      let base = {ops:1, inst:1};
+      if (item==="producer_energy") base = {ops:2, inst:2};
+      if (item==="producer_data")   base = {ops:1, inst:1};
+      if (item==="producer_exotic") base = {ops:8, inst:6};
 
-      // check adjacency for amplifier(s) and stabilizer(s)
-      let ampCount = 0;
-      let stabilized = false;
-      neighbors(i).forEach(n => {
-        const neighborItem = cells[n].dataset.item;
-        if (neighborItem === "amplifier") ampCount++;
-        if (neighborItem === "stabilizer") stabilized = true;
+      let ops = base.ops;
+      let inst = base.inst;
+
+      let amp = 0, stab=0, filt=0, reg=0, osc=0, cap=null;
+      neighbors(i).forEach(n=>{
+        const ni = cells[n].dataset.item;
+        if (ni==="amplifier") amp++;
+        if (ni==="stabilizer") stab++;
+        if (ni==="filter") filt++;
+        if (ni==="regulator") reg++;
+        if (ni==="oscillator") osc++;
+        if (ni==="capacitor") cap = n;
       });
 
-      const multiplier = 1 + ampCount; // amplifier(s) add +1 output each (so 1 amp => x2)
-      addedOps += baseOutput * multiplier;
-      if (!stabilized) addedInst += baseInst * multiplier;
-      // if stabilized, instability contribution for that producer is 0
+      if (amp>0) {
+        ops *= (1 + 0.5*amp);
+        inst *= Math.pow(1.9,amp);
+      }
+      if (osc>0) {
+        ops += 6*osc;
+        inst += 10*osc;
+      }
+      if (stab>0) inst *= 0.5;
+      if (filt>0) { inst *= 0.5; ops *= 0.75; }
+      if (reg>0)  { inst *= 0.55; ops *= 0.8; }
+
+      // capacitor soak
+      if (cap !== null && inst>0) {
+        const capCell = cells[cap];
+        let buffer = +capCell.dataset.capBuffer;
+        const free = 8-buffer;
+        const absorbed = Math.min(inst, free);
+        buffer += absorbed; inst -= absorbed;
+        capCell.dataset.capBuffer = buffer;
+      }
+
+      addedOps += ops;
+      addedInst += inst;
+    }
+    if (item==="capacitor") {
+      let buffer = +cell.dataset.capBuffer;
+      if (buffer>=8) {
+        addedInst += 3; buffer -= 3;
+        cell.dataset.capBuffer = buffer;
+      }
     }
   });
 
-  // apply results
-  gs.operations = (gs.operations || 0) + addedOps;
-  gs.instability = (gs.instability || 0) + addedInst;
+  gs.operations += addedOps;
+  gs.instability += addedInst;
 
-  // If instability reaches 100, wipe placed items (fail state)
-  if (gs.instability >= 100) {
-    print("! SYSTEM FAILURE: instability reached 100 — circuit reset.");
-    // clear placed items visually and in data
-    cells.forEach(c => {
-      c.className = "cell";   // remove color classes
-      c.dataset.item = "";
-    });
-    // reset instability and operations if you want
+  // decay
+  gs.instability = Math.max(0, gs.instability-0.5);
+
+  // cascade
+  if (gs.instability>50 && Math.random()<0.05) {
+    gs.instability *= 1.5;
+    print("Cascade event!");
+  }
+
+  if (gs.instability>=100) {
+    print("!! EXPLOSION !! Circuit damaged.");
+    cells.forEach(c=>{ c.className="cell"; c.dataset.item=""; c.dataset.capBuffer="0"; });
     gs.instability = 0;
-    // you might want to also take a penalty on funds/operations etc - up to you
   }
 
   updui();
-}, 1000);
+},1000);
 
-// Ensure UI displays the circuit-specific counts (called inside your updui function too)
 function upduiCircuit() {
-  const p = document.getElementById("producerCount");
-  const s = document.getElementById("stabilizerCount");
-  const a = document.getElementById("amplifierCount");
-  const inst = document.getElementById("instability");
-  const op = document.getElementById("operations");
-  if (p) p.innerText = (gs.producer || 0);
-  if (s) s.innerText = (gs.stabilizer || 0);
-  if (a) a.innerText = (gs.amplifier || 0);
-  if (op) op.innerText = (gs.operations || 0);
-  if (inst) inst.innerText = Math.floor(gs.instability || 0);
+  const map = {
+    producer_energy:"producerEnergyCount",
+    producer_data:"producerDataCount",
+    producer_exotic:"producerExoticCount",
+    amplifier:"amplifierCount",
+    stabilizer:"stabilizerCount",
+    capacitor:"capacitorCount",
+    filter:"filterCount",
+    regulator:"regulatorCount",
+    oscillator:"oscillatorCount"
+  };
+  for (const k in map) {
+    const el = document.getElementById(map[k]);
+    if (el) el.innerText = gs[k]||0;
+  }
+  document.getElementById("operations").innerText = gs.operations||0;
+  document.getElementById("instability").innerText = Math.floor(gs.instability||0);
 }
 
-// Patch your previously-defined updui to call this circuit UI updater if it exists
 const oldUpdui = window.updui;
 window.updui = function() {
-  try { if (typeof oldUpdui === "function") oldUpdui(); } catch(e) { /*ignore*/ }
+  try { if (typeof oldUpdui==="function") oldUpdui(); } catch(e){}
   upduiCircuit();
 };
 
 // initial UI refresh
 updui();
+
+
+//_________________________________________________________//
+document.addEventListener("keydown", function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === "Backspace") {
+    e.preventDefault(); // stop browser's default action
+    reset();
+  }
+});
+document.addEventListener("keydown", function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === "1") {
+    e.preventDefault(); // stop browser's default action
+    gs.funds +=1
+  }
+});
 </script>
 
 
