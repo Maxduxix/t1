@@ -97,87 +97,47 @@
           <div style="font-size: 13.5px; border: solid 1.1px rgb(0, 0, 0); padding-left: 5px; margin: 1px; width: auto; justify-items: center; align-content: center;"><div style="padding-right: 5px;"><span id="v2">0</span> Inches: $ <span id="v2price">0.01</span></div></div>
           <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px; " onclick="v2minus()" id="b">-</button>
     </div>
+
+    <button id="b">Settings</button>
     
 </div>
 
 </div>
 
-<div class="leftcolumn" id="prog3" style="opacity: 0; width: 500px;">
-  <div class="businesspart">
-    <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Processor</b>
-    <hr style="margin: 0;">
-     <p>Operations: <span id="operations">0</span></p>
-  <p>Instability: <span id="instability">0</span>%</p>
-    <div id="grid"></div>
-
-
-</div>
-<div class="businesspart">
-    <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Circuit-Board</b>
-    <hr style="margin: 0;">
-    <div>
-  <div class="circuit-ui" style="display: flex; gap: 20px;">
-
-   <div>
-      <p>Energy Producers: <span id="producerEnergyCount">0</span> 
-    <button onclick="buyItem('producer_energy')" id="b">Buy</button> 
-    <button onclick="useItem('producer_energy')" id="b">Use</button>
-  </p>
-
-      <p>Producers: <span id="producerDataCount">0</span> 
-    <button onclick="buyItem('producer_data')" id="b">Buy</button> 
-    <button onclick="useItem('producer_data')" id="b">Use</button>
-  </p>
-
-  <p>E-Producers: <span id="producerExoticCount">0</span> 
-    <button onclick="buyItem('producer_exotic')" id="b">Buy</button> 
-    <button onclick="useItem('producer_exotic')" id="b">Use</button>
-  </p>
-
-  <p>Amplifiers: <span id="amplifierCount">0</span> 
-    <button onclick="buyItem('amplifier')" id="b">Buy</button> 
-    <button onclick="useItem('amplifier')" id="b">Use</button>
-  </p>
-
-  <p>Stabilizers: <span id="stabilizerCount">0</span> 
-    <button onclick="buyItem('stabilizer')" id="b">Buy</button> 
-    <button onclick="useItem('stabilizer')" id="b">Use</button>
-  </p>
-    </div>
-  <div>
-    <p>Capacitors: <span id="capacitorCount">0</span> 
-    <button onclick="buyItem('capacitor')" id="b">Buy</button> 
-    <button onclick="useItem('capacitor')" id="b">Use</button>
-  </p>
-
-  <p>Filters: <span id="filterCount">0</span> 
-    <button onclick="buyItem('filter')" id="b">Buy</button> 
-    <button onclick="useItem('filter')" id="b">Use</button>
-  </p>
-
-  <p>Regulators: <span id="regulatorCount">0</span> 
-    <button onclick="buyItem('regulator')" id="b">Buy</button> 
-    <button onclick="useItem('regulator')" id="b">Use</button>
-  </p>
-
-  <p>Oscillators: <span id="oscillatorCount">0</span> 
-    <button onclick="buyItem('oscillator')" id="b">Buy</button> 
-    <button onclick="useItem('oscillator')" id="b">Use</button>
-  </p>
-
-  <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv2()">Purchase a Wire</button>
-    <div style="display: flex;  margin-bottom: 19px;">
-        <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px;;" onclick="v2plus()" id="b" >+</button>
-          <div style="font-size: 13.5px; border: solid 1.1px rgb(0, 0, 0); padding-left: 5px; margin: 1px; width: auto; justify-items: center; align-content: center;"><div style="padding-right: 5px;">T<span>0</span>: $ <span id="v2price">20</span></div></div>
-          <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px; " onclick="v2minus()" id="b">-</button>
-    </div>
+<div class="leftcolumn" id="prog3" style="opacity: 0; width: 506px;">
+  <!-- Currency display -->
+  <div id="currency">
+    <button id="reset" style="margin-bottom: 8px;">Reset Grid</button>
+    <span id="ops">Ops: 0</span> | 
+    <span id="inst">Inst: 0 / 50</span>
   </div>
-</div>
-    
-</div>
 
-</div>
+  <!-- Part buttons -->
+  <div id="buttons">
+    <button data-part="producer" id="b">Producer</button>
+    <button data-part="stabilizer"  id="b">Stabilizer</button>
+    <button data-part="amplifier"  id="b">Amplifier</button>
+  </div>
 
+  <!-- Tier selector -->
+  <label for="tier">Select Tier:</label>
+  <select id="tier">
+    <option value="1">Tier 1</option>
+    <option value="2">Tier 2</option>
+    <option value="3">Tier 3</option>
+    <option value="4">Tier 4</option>
+    <option value="5">Tier 5</option>
+    <option value="6">Tier 6</option>
+    <option value="7">Tier 7</option>
+    <option value="8">Tier 8</option>
+  </select>
+
+  <!-- Grid container -->
+  <div id="grid"></div>
+
+  <!-- Output display -->
+  <h3>Grid Stats</h3>
+  <div id="stats"></div>
 </div>
 
 
@@ -185,33 +145,215 @@
 </body>
 
 <script>
-    let gs = JSON.parse(localStorage.getItem("gs")) || {
+
+let gs = JSON.parse(localStorage.getItem("gs")) || {
     paperclipall: 0, weather: 0, pollution0t: 0.01,
     paperclip: 0, paperclip1: 0, paperclip2: 0, paperclip3: 0,
     funds: 0,
     market: 0,
     wire1: 25, wire2: 0, wire3: 0,
-    autoclippers: 0,
-    producer:0, stabilizer: 0, amplifier: 0, instability:0, operations:0
-
+    instability: 0
 };
 
 
+let v1price = 0.01;
+let demand = 0.1;
+let oxidation = 0;
+let v2price = 0;
+let v3price = 0;
+let wprice = 1;
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("grid");
+    const tierSelect = document.getElementById("tier");
+    const buttons = document.querySelectorAll("#buttons button");
+    const statsDiv = document.getElementById("stats");
+    const opsSpan = document.getElementById("ops");
+    const instSpan = document.getElementById("inst");
+    const resetBtn = document.getElementById("reset");
+
+    let selectedPart = null;
+    const gridSize = 6;
+    const instCap = 50;
+    const cells = [];
+
+    
+    for (let i = 0; i < gridSize * gridSize; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.dataset.index = i;
+      cell.dataset.part = "";
+      cell.dataset.tier = "1";
+      cell.addEventListener("click", () => placePart(cell));
+      grid.appendChild(cell);
+      cells.push(cell);
+    }
+
+    
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        selectedPart = button.dataset.part;
+        buttons.forEach(btn => (btn.style.border = "1px solid black"));
+        button.style.border = "2px solid gold";
+      });
+    });
+
+    resetBtn.addEventListener("click", () => {
+      cells.forEach(cell => {
+        cell.dataset.part = "";
+        cell.textContent = "";
+        cell.className = "cell";
+      });
+      updateStats("Grid reset.");
+    });
+
+    function getAdjacent(index) {
+      const adj = [];
+      const total = cells.length;
+      const cols = gridSize;
+      const rows = Math.floor(total / cols);
+      const row = Math.floor(index / cols);
+      const col = index % cols;
+      const dirs = [ [-1,0],[1,0],[0,-1],[0,1] ];
+      for (const [dr, dc] of dirs) {
+        const newRow = row + dr;
+        const newCol = col + dc;
+        if (newRow < 0 || newRow >= rows || newCol < 0 || newCol >= cols) continue;
+        const neighborIndex = newRow * cols + newCol;
+        if (neighborIndex >= 0 && neighborIndex < total) adj.push(neighborIndex);
+      }
+      return adj;
+    }
+
+    function placePart(cell) {
+  if (!selectedPart) return;
+  const tier = parseInt(tierSelect.value);
+
+  
+  let wireType, cost;
+  if (tier >= 1 && tier <= 3) {
+    wireType = "wire1";  
+    cost = 50 * Math.pow(2, tier);     
+  } else if (tier >= 4 && tier <= 6) {
+    wireType = "wire2";  
+    cost = 4 * Math.pow(3, tier);
+  } else if (tier >= 7 && tier <= 8) {
+    wireType = "wire3";  
+    cost = 2 * Math.pow(4, tier-2);
+  }
+
+  
+  if (gs[wireType] < cost) {
+    print2(`Not enough ${wireType === "wire1" ? "Copper" : wireType === "wire2" ? "Iron" : "Steel"} wire!`);
+    return;
+  } else {
+    gs[wireType] -= cost;
+    print2(`Used ${cost} ${wireType === "wire1" ? "Copper" : wireType === "wire2" ? "Iron" : "Steel"} wire to place ${selectedPart} T${tier}`);
+  }
+
+  
+  cell.dataset.part = selectedPart;
+  cell.dataset.tier = tier;
+  cell.className = "cell " + selectedPart;
+  cell.textContent = selectedPart.charAt(0).toUpperCase() + tier;
+
+  updui(); 
+  calculateStats(); 
+}
+
+    
+    function calculateStats() {
+      let totalOps = 0;
+      let totalInst = 0;
+      let output = "";
+
+      cells.forEach((cell, idx) => {
+        const part = cell.dataset.part;
+        const tier = parseInt(cell.dataset.tier);
+        if (!part) return;
+
+        
+        let ops = 0;
+        let inst = 0;
+
+        if (part === "producer") {
+          ops = 2 * Math.pow(2.6, tier - 1);
+          inst = 1 * Math.pow(2.3, tier - 1);
+        } else if (part === "stabilizer") {
+          ops = 0;
+          inst = 0; 
+        } else if (part === "amplifier") {
+          ops = -1 * Math.pow(1.3, tier - 1);
+          inst = 3 * Math.pow(2.8, tier - 1);
+        }
+
+        
+        const adj = getAdjacent(idx);
+        adj.forEach(ai => {
+          const neighborPart = cells[ai].dataset.part;
+          const neighborTier = parseInt(cells[ai].dataset.tier) || 0;
+
+          
+          if ((part === "producer" || part === "amplifier") && neighborPart === "stabilizer") {
+            inst = Math.max(0, inst - (1.5 * neighborTier));
+          }
+
+          
+          if (part === "producer" && neighborPart === "amplifier") {
+            
+            ops *= (1 + 0.2 * (neighborTier - 0.6) + 0.2);
+          }
+
+          
+          if (neighborPart && neighborPart === part) {
+            ops *= 1.15;   
+            inst *= 1.45;  
+          }
+        });
+
+        totalOps += ops;
+        totalInst += inst;
+
+        output += `Cell ${idx + 1}: ${part.charAt(0).toUpperCase()} T${tier} → Ops: ${ops.toFixed(2)}, Inst: ${inst.toFixed(2)}<br>`;
+      });
+
+      
+      if (totalInst > instCap) {
+        cells.forEach(cell => {
+          cell.dataset.part = "";
+          cell.textContent = "";
+          cell.className = "cell";
+        });
+        updateStats("<strong style='color:red;'>Instability exceeded cap! The circuit stabilized at max capacity and grid was reset.</strong>");
+        totalOps = 0;
+        totalInst = instCap;
+        output = "";
+      }
+
+      opsSpan.textContent = `Ops: ${totalOps.toFixed(2)}`;
+      instSpan.textContent = `Inst: ${totalInst.toFixed(2)} / ${instCap}`;
+      statsDiv.innerHTML = output || "No parts placed yet.";
+    }
+
+    function updateStats(msg) {
+      opsSpan.textContent = "Ops: 0";
+      instSpan.textContent = `Inst: 0 / ${instCap}`;
+      statsDiv.innerHTML = msg;
+    }
+
+    
+    window.calculateStats = calculateStats;
+
+    updateStats("No parts placed yet.");
+
+}); 
+
+
+
+
 function formatNumber(value) {
-  const suffixes = [
-    "", "K", "M", "B", "T",
-    "Qa","Qn","Sx","Sp","Oc","No",
-    "De","Ud","Dde","Tde","Qde","Qide","Sxde","Spde","Ocde","Node",
-    "Vg","Uvg","Dvg","Tvg","Qavg","Qnvg","Sxvg","Spvg","Ovg","Nvg",
-    "Tg","Utg","Dtg","Ttg","Qatg","Qntg","Sxtg","Sptg","Otg","Ntg",
-    "Qg","Uqg","Dqg","Tqg","Qaqg","Qnqg","Sxqg","Spqg","Oqg","Nqg",
-    "Pg","Upg","Dpg","Tpg","Qapg","Qnpg","Sxpg","Sppg","Opg","Npg",
-    "Hg","Uhg","Dhg","Thg","Qahg","Qnhg","Sxhg","Sphg","Ohg","Nhg",
-    "Sg","Usg","Dsg","Tsg","Qasg","Qnsg","Sxsg","Spsg","Osg","Nsg",
-    "Og","Uog","Dog","Tog","Qaog","Qnog","Sxog","Spog","Oog","Nog",
-    "Ng","Ung","Dng","Tng","Qang","Qnng","Sxng","Spng","Ong","Nng",
-    "Ce"
-  ];
+  const suffixes = ["", "K", "M", "B", "T", "Qa","Qn","Sx","Sp","Oc","No","De","Ud","Dde","Tde","Qde","Qide","Sxde","Spde","Ocde","Node","Vg","Uvg","Dvg","Tvg","Qavg","Qnvg","Sxvg","Spvg","Ovg","Nvg","Tg","Utg","Dtg","Ttg","Qatg","Qntg","Sxtg","Sptg","Otg","Ntg","Qg","Uqg","Dqg","Tqg","Qaqg","Qnqg","Sxqg","Spqg","Oqg","Nqg","Pg","Upg","Dpg","Tpg","Qapg","Qnpg","Sxpg","Sppg","Opg","Npg","Hg","Uhg","Dhg","Thg","Qahg","Qnhg","Sxhg","Sphg","Ohg","Nhg","Sg","Usg","Dsg","Tsg","Qasg","Qnsg","Sxsg","Spsg","Osg","Nsg","Og","Uog","Dog","Tog","Qaog","Qnog","Sxog","Spog","Oog","Nog","Ng","Ung","Dng","Tng","Qang","Qnng","Sxng","Spng","Ong","Nng","Ce"];
   if (value < 1000) return value.toString();
   let tier = Math.floor(Math.log10(value) / 3);
   let suffix = suffixes[tier] || ("e" + tier*3);
@@ -226,57 +368,36 @@ let progress = 0
   const bar4 = document.getElementById("barFill4");
 
 function updui() { 
-gs.paperclip = (gs.paperclip1)+(gs.paperclip2)+(gs.paperclip3)
-bar1.style.width = progress + "%";
-bar2.style.width = count2 + "%";
-bar3.style.width = count3 + "%";
-bar4.style.width = count4 + "%";
-document.getElementById('v1all').innerText = formatNumber(formatDynamic(gs.paperclipall, 2));
-document.getElementById('v1').innerText = formatNumber(formatDynamic(gs.paperclip, 2));
-document.getElementById('v2').innerText = formatNumber(formatDynamic(plus2, 2));
-document.getElementById('funds').innerText = formatNumber(formatDynamic(gs.funds, 2));
-document.getElementById('demand').innerText = formatNumber(formatDynamic((demand*100), 3));
-document.getElementById('demand0m').innerText = formatNumber(formatDynamic(((demand0mmax)), 0));
-document.getElementById('weather').innerText = formatNumber(formatDynamic((gs.weather), 2));
-document.getElementById('oxidation').innerText = formatNumber(formatDynamic((oxidation), 2));
-document.getElementById('marketlevel').innerText = formatNumber(formatDynamic((gs.market), 2));
-
-document.getElementById('wire1').innerText = formatNumber(formatDynamic((gs.wire1), 2));
-document.getElementById('wire2').innerText = formatNumber(formatDynamic((gs.wire2), 2));
-document.getElementById('wire3').innerText = formatNumber(formatDynamic((gs.wire3), 2));
-
-document.getElementById('v1a').innerText = formatNumber(formatDynamic(gs.paperclip1, 2));
-document.getElementById('v1b').innerText = formatNumber(formatDynamic(gs.paperclip2, 2));
-document.getElementById('v1c').innerText = formatNumber(formatDynamic(gs.paperclip3, 2));
-
-document.getElementById('v1price').innerText = formatNumber(formatDynamic(v1price, 2));
-document.getElementById('v2price').innerText = formatNumber(formatDynamic(v2price, 2));
-document.getElementById('v3price').innerText = formatNumber(formatDynamic(v3price, 2));
-
-document.getElementById("producerCount").innerText = gs.producer || 0;
-document.getElementById("stabilizerCount").innerText = gs.stabilizer || 0;
-document.getElementById("amplifierCount").innerText = gs.amplifier || 0;
-
+  gs.paperclip = (gs.paperclip1)+(gs.paperclip2)+(gs.paperclip3)
+  if (bar1) bar1.style.width = progress + "%";
+  if (bar2) bar2.style.width = (typeof count2 !== 'undefined' ? count2 : 0) + "%";
+  if (bar3) bar3.style.width = (typeof count3 !== 'undefined' ? count3 : 0) + "%";
+  if (bar4) bar4.style.width = (typeof count4 !== 'undefined' ? count4 : 0) + "%";
+  document.getElementById('v1all').innerText = formatNumber(formatDynamic(gs.paperclipall, 2));
+  document.getElementById('v1').innerText = formatNumber(formatDynamic(gs.paperclip, 2));
+  document.getElementById('v2').innerText = formatNumber(formatDynamic(plus2, 2));
+  document.getElementById('funds').innerText = formatNumber(formatDynamic(gs.funds, 2));
+  document.getElementById('demand').innerText = formatNumber(formatDynamic((demand*100), 3));
+  document.getElementById('demand0m').innerText = formatNumber(formatDynamic(((demand0mmax)), 0));
+  document.getElementById('weather').innerText = formatNumber(formatDynamic((gs.weather), 2));
+  document.getElementById('oxidation').innerText = formatNumber(formatDynamic((oxidation), 2));
+  document.getElementById('marketlevel').innerText = formatNumber(formatDynamic((gs.market), 2));
+  document.getElementById('wire1').innerText = formatNumber(formatDynamic((gs.wire1), 2));
+  document.getElementById('wire2').innerText = formatNumber(formatDynamic((gs.wire2), 2));
+  document.getElementById('wire3').innerText = formatNumber(formatDynamic((gs.wire3), 2));
+  document.getElementById('v1a').innerText = formatNumber(formatDynamic(gs.paperclip1, 2));
+  document.getElementById('v1b').innerText = formatNumber(formatDynamic(gs.paperclip2, 2));
+  document.getElementById('v1c').innerText = formatNumber(formatDynamic(gs.paperclip3, 2));
+  document.getElementById('v1price').innerText = formatNumber(formatDynamic(v1price, 2));
+  document.getElementById('v2price').innerText = formatNumber(formatDynamic(v2price, 2));
+  document.getElementById('v3price').innerText = formatNumber(formatDynamic(v3price, 2));
 }
 
 const bgMusic = document.getElementById("bg-music");
-bgMusic.volume = 0.45;
-
-function playMusic() {
-      bgMusic.play();
-    }
-
-    function pauseMusic() {
-      bgMusic.pause();
-    }
-
-    function toggleMusic() {
-      if (bgMusic.paused) {
-        bgMusic.play();
-      } else {
-        bgMusic.pause();
-      }
-    }
+if (bgMusic) bgMusic.volume = 0.45;
+function playMusic() { if (bgMusic) bgMusic.play(); }
+function pauseMusic() { if (bgMusic) bgMusic.pause(); }
+function toggleMusic() { if (!bgMusic) return; if (bgMusic.paused) bgMusic.play(); else bgMusic.pause(); }
 
 let trig1 = false
 let trig2 = false
@@ -307,31 +428,19 @@ function progression() {
     printWithLoading("Pollution has increased... + 0.02% Oxidiation Rate");
     gs.pollution0t = 0.07
     }
-  
 }
 
+ 
  const term = document.getElementById("terminal");
  const term2 = document.getElementById("terminal2");
   const input = document.getElementById("inputLine");
 
   function reset() {
-    let count = 0;
-    const interval = 300 / 5; // 600ms
-
-    const timer = setInterval(() => {
-        localStorage.removeItem("gs"); location.reload();
-        count++;
-        if (count >= 200) {
-            clearInterval(timer); // stop after 5 times
-        }
-    }, interval);
+    localStorage.removeItem("gs"); location.reload();
 }
   function print(line) {
     const last = term.querySelector(".current");
-    if (last) {
-      last.classList.remove("current");
-      last.classList.add("old");
-    }
+    if (last) { last.classList.remove("current"); last.classList.add("old"); }
     const p = document.createElement("div");
     p.style.color = "white";
     p.className = "current";
@@ -341,104 +450,33 @@ function progression() {
   }
   function printWithLoading(line, delay = 1500) {
     const last = term.querySelector(".current");
-    if (last) {
-      last.classList.remove("current");
-      last.classList.add("old");
-    }
-
+    if (last) { last.classList.remove("current"); last.classList.add("old"); }
     const div = document.createElement("div");
     div.className = "current";
     term.appendChild(div);
-
     const frames = [".", "..", "..."];
     let i = 0;
-
-    const interval = setInterval(() => {
-      div.textContent = frames[i % frames.length];
-      i++;
-    }, 400);
-
-    setTimeout(() => {
-      clearInterval(interval);
-      div.textContent = `> ${line}`;
-      term.scrollTop = term.scrollHeight;
-    }, delay);
+    const interval = setInterval(() => { div.textContent = frames[i % frames.length]; i++; }, 400);
+    setTimeout(() => { clearInterval(interval); div.textContent = `> ${line}`; term.scrollTop = term.scrollHeight; }, delay);
   }
   function runCommand(cmd) {
-    if (!cmd.endsWith("/")) {
-      printWithLoading("Invalid: commands must end with '/'");
-      return;
-    }
-
-
+    if (!cmd.endsWith("/")) { printWithLoading("Invalid: commands must end with '/'"); return; }
     const base = cmd.slice(0, -1).toLowerCase();
-
     switch (base) {
-      case "help":
-        printWithLoading("Commands: help/ clear/ time/ date/ reset/");
-        break;
-      case "guide1":
-        print("=== GUIDE 1: Paperclip Economy ===");
-  print("You start with funds and can make paperclips manually.");
-  print("Each paperclip costs wire to make. Wire is limited and must be bought.");
-  print("Paperclips are sold automatically based on market demand and price.");
-  print("You can adjust price to balance sales speed and profit.");
-  print("The market demand changes dynamically.");
-  print("The Margin Demand is the maximum paperclip can be bought each time its succesfully sold.");
-  print("Funds increase when you sell clips, letting you buy more wire or upgrades.");
-  print("Keep balancing production, price, and supply to grow your paperclip empire.");
-  print("Processors unlock later, leading to advanced features.");
-        break;
-      case "guide2":
-        print("=== GUIDE 2: Circuit Mechanics ===");
-  print("The circuit is a 7x7 grid where you place components.");
-  print("Operations are generated by Producers:");
-  print(" - Energy Producer: outputs , moderate instability.");
-  print(" - Data Producer: balanced output, low instability.");
-  print(" - Exotic Producer: high ops, but huge instability.");
-  print("Amplifier: boosts output of nearby producers, but multiplies instability.");
-  print("Stabilizer: halves instability of nearby producers.");
-  print("Capacitor: absorbs instability up to a limit, then discharges it later.");
-  print("Filter: reduces instability further, but also lowers operations.");
-  print("Regulator: keeps instability lower, but reduces throughput.");
-  print("Oscillator: huge burst of ops, but causes chaos and spikes instability.");
-  print("Instability rises as circuits run. Above 50%, cascades can happen.");
-  print("If instability reaches 100, the circuit explodes and resets.");
-  print("Balance your placement of stabilizers, filters, and regulators to sustain production.");
-        break;
-      case "clear":
-        term.innerHTML = "";
-        break;
-         case "reset":
-        reset()
-        break;
-      case "time":
-        printWithLoading("Current time: " + new Date().toLocaleTimeString());
-        break;
-      case "date":
-        printWithLoading("Today's date: " + new Date().toLocaleDateString());
-        break;
-      default:
-        printWithLoading("Unknown command: " + base + "/");
+      case "help": printWithLoading("Commands: help/ clear/ time/ date/ reset/ guide1/ guide2/ "); break;
+      case "guide1": print("=== GUIDE 1: Paperclip Economy ==="); print("You start with funds and can make paperclips manually."); print("Each paperclip costs wire to make. Wire is limited and must be bought."); print("Paperclips are sold automatically based on market demand and price."); print("You can adjust price to balance sales speed and profit."); print("The market demand changes dynamically."); print("The Margin Demand is the maximum paperclip can be bought each time its succesfully sold."); print("Funds increase when you sell clips, letting you buy more wire or upgrades."); print("Keep balancing production, price, and supply to grow your paperclip empire."); print("Processors unlock later, leading to advanced features."); break;
+      case "guide2": print("=== GUIDE 2: Circuit Mechanics ==="); print("eh... go find out ur self bud"); break;
+      case "clear": term.innerHTML = ""; break;
+      case "reset": reset(); break;
+      case "time": printWithLoading("Current time: " + new Date().toLocaleTimeString()); break;
+      case "date": printWithLoading("Today's date: " + new Date().toLocaleDateString()); break;
+      default: printWithLoading("Unknown command: " + base + "/");
     }
   }
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && input.value.trim() !== "") {
-      const command = input.value.trim();
-
-     print(command);  // uses same style as intro
-
-
-      input.value = "";
-      runCommand(command);
-    }
-  });
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter" && input.value.trim() !== "") { const command = input.value.trim(); print(command); input.value = ""; runCommand(command); } });
 function print2(line) {
     const last = term2.querySelector(".current");
-    if (last) {
-      last.classList.remove("current");
-      last.classList.add("old2");
-    }
+    if (last) { last.classList.remove("current"); last.classList.add("old2"); }
     const p = document.createElement("div");
     p.style.color = "white";
     p.className = "current";
@@ -448,50 +486,35 @@ function print2(line) {
   }
 
 
-  //____________________________________________________________////
-
 let clipon = false
 function addv1() {
-  if (progress <= 101 && clipon == false) {
+  if (clipon) return;
+  if (progress <= 101) {
     if (wusage === 5 && gs.wire3 > 0) {progress +=3.5} else if (wusage === 2.5 && gs.wire2 > 0) {progress +=7} else if (wusage === 1 && gs.wire1 > 0) {progress +=11}
-      if (progress >= 100 && wusage === 1 && gs.wire1 > 0) {
-        progress = 0;
-        gs.wire1 -=1
-        gs.paperclipall++;
-        gs.paperclip1++;
-        print2("You made 1 Copper Paperclip")
-      } else if (progress > 100 && wusage === 2.5 && gs.wire2 > 0) {
-         progress = 0;
-        gs.wire2 -=1
-        gs.paperclipall++;
-        gs.paperclip2++;
-        print2("You made 1 Iron Paperclip")
-  } else if (progress > 100 && wusage ===  5 && gs.wire3 > 0) {
-         progress = 0;
-        gs.wire3 -=1
-        gs.paperclipall++;
-        gs.paperclip3++;
-        print2("You made 1 S-Steel Paperclip")
+    if (progress >= 100 && wusage === 1 && gs.wire1 > 0) {
+        progress = 0; gs.wire1 -=1; gs.paperclipall++; gs.paperclip1++; print2("You made 1 Copper Paperclip");
+    } else if (progress > 100 && wusage === 2.5 && gs.wire2 > 0) {
+        progress = 0; gs.wire2 -=1; gs.paperclipall++; gs.paperclip2++; print2("You made 1 Iron Paperclip");
+    } else if (progress > 100 && wusage ===  5 && gs.wire3 > 0) {
+        progress = 0; gs.wire3 -=1; gs.paperclipall++; gs.paperclip3++; print2("You made 1 S-Steel Paperclip");
+    }
+    clipon = true; setTimeout(() => { clipon = false; }, 150);
+    updui();
   }
-
-   clipon = true;
-  setTimeout(() => { clipon = false; }, 150);
-      updui()
-    }};
+}
 let plus = 24
 let plus2 = 0
 function v1plus(){ if(plus>=0) plus++; updui()}
 function v1minus(){ if(plus>=(1)) plus -=1; updui()}
-
 function v2plus(){ if(plus2>=0) plus2++; }
 function v2minus(){ if(plus2>=(1)) plus2 -=1; }
 
 let demand0m = 1
 let demand0mmax = 1
 function sell() {
-   demand0mmax = ((Math.max(1, ((25*(Math.pow((gs.market+10)/10,2))*((wusage+1)/2))/(v1price*100)))));
-  demand0m = Math.min((((Math.random()+0.1)*(demand0mmax.toFixed(0))).toFixed(0)), gs[paperclipselect])
-  rng = Math.random()
+   const selectedKey = (typeof paperclipselect !== 'undefined') ? paperclipselect : "paperclip1";
+   demand0m = Math.min((((Math.random()+0.1)*(demand0mmax.toFixed(0))).toFixed(0)), gs[selectedKey])
+   rng = Math.random()
       if (gs.paperclip1 > 0 && rng <= demand && wusage === 1 && demand0m > 0) {
       gs.paperclip1 -= 1 *demand0m
       gs.funds += v1price * demand0m
@@ -505,32 +528,23 @@ function sell() {
       gs.funds += v1price * demand0m
       print2(`You sold ${demand0m} (SS) Paperclip For $ ${(v1price * demand0m).toFixed(2)}`)
       }
-    };
+}
 let rng = Math.random();
 let rngw = Math.random();
 
 function addWire(type) {
-  // set price based on chosen wire
-  if (type === 1) {wprice = 1; print2("You Picked Copper Wire")};  // copper
-  if (type === 2) {wprice = 6; print2("You Picked Iron Wire")} // iron
-  if (type === 3) {wprice = 15; print2("You Picked S-Steel Wire")} // steel
-
+  if (type === 1) {wprice = 1; print2("You Picked Copper Wire");};
+  if (type === 2) {wprice = 6; print2("You Picked Iron Wire");}
+  if (type === 3) {wprice = 25; print2("You Picked S-Steel Wire");}
   updui();
 }
 let wusage = 1
 let paperclipselect = "paperclip1"
 
 function useWire(type2) {
-  if (type2 === 1) {wusage = 1;
-     print2("You are using Copper Wire");
-      paperclipselect = "paperclip1"}  // copper
-  if (type2 === 2) {wusage = 2.5;
-     print2("You are using Iron Wire");
-      paperclipselect = "paperclip2"}// iron
-  if (type2 === 3) {wusage = 5;
-     print2("You are using S-Steel Wire");
-      paperclipselect = "paperclip3"}  // steel
-
+  if (type2 === 1) {wusage = 1; print2("You are using Copper Wire"); paperclipselect = "paperclip1"}
+  if (type2 === 2) {wusage = 2.5; print2("You are using Iron Wire"); paperclipselect = "paperclip2"}
+  if (type2 === 3) {wusage = 5; print2("You are using S-Steel Wire"); paperclipselect = "paperclip3"}
   updui();
 }
 
@@ -543,13 +557,12 @@ function addv2() {
     gs.wire2 += plus2
     gs.funds -= v2price;
     print2(`You Bought ${plus2} Iron Wires for $ ${v2price.toFixed(2)}`)
-  }  else if (gs.funds >= v2price && plus2 > 0 && wprice ==  15) {
+  }  else if (gs.funds >= v2price && plus2 > 0 && wprice ==  25) {
     gs.wire3 += plus2
     gs.funds -= v2price;
     print2(`You Bought ${plus2} S-Steel Wires for $ ${v2price.toFixed(2)}`)
   }
 }
-
 function addv3() {
   if (gs.funds >= v3price && gs.market < 30) {
     gs.funds -= v3price;
@@ -558,36 +571,26 @@ function addv3() {
   }
 }
 
-let v1price = 0.01;
-let demand = 0.1;
-let oxidation = 0;
-let v2price = 0;
-let v3price = 0;
-let wprice = 1
 
 const prog1 = document.getElementById("prog1");
 const prog2 = document.getElementById("prog2");
 const prog3 = document.getElementById("prog3");
-const prog4 = document.getElementById("prog4");
 
-  function SIgroup(){
-
-    if (gs.paperclipall > 0) {prog1.style.opacity = "1"} 
-    if (gs.paperclipall > 10) {prog2.style.opacity = "1"}
-    if (gs.paperclipall > 250) {prog3.style.opacity = "1"}
+function SIgroup(){
+    if (gs.paperclipall > 0) { if (prog1) prog1.style.opacity = "1"} 
+    if (gs.paperclipall > 10) { if (prog2) prog2.style.opacity = "1"}
+    if (gs.paperclipall > 250) { if (prog3) prog3.style.opacity = "1"}
 
     if (v1price >= 10) {v1pricenerf = 2 }else if (v1price >= 5) {v1pricenerf = 1.45} else if (v1price >= 1) {v1pricenerf = 1.1} else if (v1price >= 0.5) {v1pricenerf = 0.95} else {v1pricenerf = 0.78}
     if (gs.instability > 0) {gs.instability -= 0.1}
     if (progress > 0) {progress-=1}
-    //equation
     gs.paperclip = (gs.paperclip1)+(gs.paperclip2)+(gs.paperclip3)
     v1price = (0.01)+(plus/100)
     v2price = Math.max(0, 0.05 * plus2 *(wprice));
     v3price = ((10)*((gs.market+7)/7))*(Math.pow(((gs.market+10)/10),2))
     demand =((0.85+((gs.market)/40))*(((gs.weather)+10)/10)*((wusage+9)/10))/(Math.pow((v1price*101), (v1pricenerf-(gs.market/50))));
     oxidation = ((gs.pollution0t)*(Math.abs(gs.weather)))
-
-
+    demand0mmax = ((Math.max(1, ((25*(Math.pow((gs.market+10)/10,2))*((wusage+1)/2))/(v1price*80)))));
 
     localStorage.setItem("gs",JSON.stringify(gs));
     progression()
@@ -601,277 +604,37 @@ else if (rngw >= 0.85) gs.weather = 3;
 else if (rngw >= 0.70) gs.weather = 2;
 else if (rngw >= 0.65) gs.weather = 1;
 else if (rngw >= 0.50) gs.weather = 0;
-
-      };
+};
   let count4 = 0
   let count2 = 0
   let count3 = 0
 
-  // intro
+  
   printWithLoading("Welcome to the terminal!", 2000);
   setTimeout(() => printWithLoading("Loading resources...", 2000), 3500);
   setTimeout(() => printWithLoading("Welcome to the Matrix.", 2000), 7000);
+  setTimeout(() => printWithLoading("Type 'help/' to check out useless Commands ", 2000), 10000);
 window.onload = function(){
   localStorage.setItem("gs", JSON.stringify(gs));
-  setInterval(SIgroup, 155);
+  setInterval(SIgroup, 250);
   updui();
 
-      count4 = 0
+  count4 = 0
   const interval3 = 120000 / 100;
-    const timer3 = setInterval(() => {
-        count4++;
-   if (count4 >= 100) {
-    count4 = 0
-    weatherrng()
-   }
-   }
-  , interval3)
+    const timer3 = setInterval(() => { count4++; if (count4 >= 100) { count4 = 0; weatherrng() } }, interval3)
 
-
-      count3 = 0
+  count3 = 0
   const interval1 = 10000 / 100;
-    const timer1 = setInterval(() => {
-        count3++;
-   if (count3 >= 100) {
-    count3 = 0
-    if (gs.wire1 > 1) {gs.wire1 -= (oxidation*25)};
-    if (gs.wire2 > 1) {gs.wire2 -= (oxidation*5)};
-    if (gs.wire3 > 1) {gs.wire3 -= (oxidation)};{
-   }
-   }
-  }, interval1)
+    const timer1 = setInterval(() => { count3++; if (count3 >= 100) { count3 = 0; if (gs.wire1 > 1) {gs.wire1 -= (oxidation*25)}; if (gs.wire2 > 1) {gs.wire2 -= (oxidation*5)}; if (gs.wire3 > 1) {gs.wire3 -= (oxidation)}; } }, interval1)
 
   count2 = 0
   const interval2 = 650 / 100;
-    const timer2 = setInterval(() => {
-        count2++;
-        if (count2 >= 100) {
-            count2 = 0
-            sell()
-        }
-    }, interval2);
-  }
-
-
-
-
-//______________________________________________________________________________________________________________ ..........
-//______________________________________________________________________________________________________________ ..........
-//______________________________________________________________________________________________________________ ..........
-
-
-const grid = document.getElementById("grid");
-grid.innerHTML = "";
-
-// ensure fields exist
-[
-  "producer_energy","producer_data","producer_exotic",
-  "amplifier","stabilizer","capacitor","filter","regulator","oscillator"
-].forEach(k => gs[k] = gs[k] || 0);
-
-gs.instability = gs.instability || 0;
-gs.operations  = gs.operations  || 0;
-
-const cells = [];
-let activeItem = null;
-
-// build 5x5 grid
-for (let i = 0; i < 49; i++) {
-  const cell = document.createElement("div");
-  cell.className = "cell";
-  cell.dataset.index = i;
-  cell.dataset.item = "";
-  cell.dataset.capBuffer = "0";
-
-  cell.addEventListener("click", () => {
-    if (activeItem) {
-      if (gs[activeItem] > 0) {
-        if (!cell.dataset.item) {
-          cell.dataset.item = activeItem;
-          cell.classList.add(activeItem);
-          gs[activeItem] -= 1;
-          updui();
-        } else if (cell.dataset.item === activeItem) {
-          // remove + refund
-          cell.classList.remove(activeItem);
-          cell.dataset.item = "";
-          gs[activeItem] += 1;
-          updui();
-        }
-      } else {
-        print("No " + activeItem + "s available.");
-        activeItem = null;
-      }
-      return;
-    }
-  });
-
-  grid.appendChild(cell);
-  cells.push(cell);
-};
-
-function buyItem(type) {
-  const costTable = {
-    producer_energy: 20, producer_data: 25, producer_exotic: 120,
-    amplifier: 30, stabilizer: 25, capacitor: 40,
-    filter: 36, regulator: 28, oscillator: 140
-  };
-  const cost = costTable[type] || 50;
-  if (gs.funds >= cost) {
-    gs.funds -= cost;
-    gs[type] += 1;
-    updui();
-  } else {
-    print("Not enough funds for " + type + " ($" + cost + ")");
-  }
+    const timer2 = setInterval(() => { count2++; if (count2 >= 100) { count2 = 0; sell() } }, interval2);
 }
 
-function useItem(type) {
-  if ((gs[type] || 0) > 0) activeItem = type;
-  else print("You don't own any " + type + "s.");
-}
 
-function neighbors(index) {
-  const row = Math.floor(index / 5);
-  const col = index % 5;
-  const n = [];
-  for (let dr=-1; dr<=1; dr++) {
-    for (let dc=-1; dc<=1; dc++) {
-      if (dr===0 && dc===0) continue;
-      const r = row+dr, c = col+dc;
-      if (r>=0 && r<5 && c>=0 && c<5) n.push(r*5+c);
-    }
-  }
-  return n;
-}
-
-setInterval(() => {
-  let addedOps = 0;
-  let addedInst = 0;
-
-  cells.forEach((cell,i) => {
-    const item = cell.dataset.item;
-    if (item.startsWith("producer")) {
-      let base = {ops:1, inst:1};
-      if (item==="producer_energy") base = {ops:2, inst:2};
-      if (item==="producer_data")   base = {ops:1, inst:1};
-      if (item==="producer_exotic") base = {ops:8, inst:6};
-
-      let ops = base.ops;
-      let inst = base.inst;
-
-      let amp = 0, stab=0, filt=0, reg=0, osc=0, cap=null;
-      neighbors(i).forEach(n=>{
-        const ni = cells[n].dataset.item;
-        if (ni==="amplifier") amp++;
-        if (ni==="stabilizer") stab++;
-        if (ni==="filter") filt++;
-        if (ni==="regulator") reg++;
-        if (ni==="oscillator") osc++;
-        if (ni==="capacitor") cap = n;
-      });
-
-      if (amp>0) {
-        ops *= (1 + 0.5*amp);
-        inst *= Math.pow(1.9,amp);
-      }
-      if (osc>0) {
-        ops += 6*osc;
-        inst += 10*osc;
-      }
-      if (stab>0) inst *= 0.5;
-      if (filt>0) { inst *= 0.5; ops *= 0.75; }
-      if (reg>0)  { inst *= 0.55; ops *= 0.8; }
-
-      // capacitor soak
-      if (cap !== null && inst>0) {
-        const capCell = cells[cap];
-        let buffer = +capCell.dataset.capBuffer;
-        const free = 8-buffer;
-        const absorbed = Math.min(inst, free);
-        buffer += absorbed; inst -= absorbed;
-        capCell.dataset.capBuffer = buffer;
-      }
-
-      addedOps += ops;
-      addedInst += inst;
-    }
-    if (item==="capacitor") {
-      let buffer = +cell.dataset.capBuffer;
-      if (buffer>=8) {
-        addedInst += 3; buffer -= 3;
-        cell.dataset.capBuffer = buffer;
-      }
-    }
-  });
-
-  gs.operations += addedOps;
-  gs.instability += addedInst;
-
-  // decay
-  gs.instability = Math.max(0, gs.instability-0.5);
-
-  // cascade
-  if (gs.instability>50 && Math.random()<0.05) {
-    gs.instability *= 1.5;
-    print("Cascade event!");
-  }
-
-  if (gs.instability>=100) {
-    print("!! EXPLOSION !! Circuit damaged.");
-    cells.forEach(c=>{ c.className="cell"; c.dataset.item=""; c.dataset.capBuffer="0"; });
-    gs.instability = 0;
-  }
-
-  updui();
-},1000);
-
-function upduiCircuit() {
-  const map = {
-    producer_energy:"producerEnergyCount",
-    producer_data:"producerDataCount",
-    producer_exotic:"producerExoticCount",
-    amplifier:"amplifierCount",
-    stabilizer:"stabilizerCount",
-    capacitor:"capacitorCount",
-    filter:"filterCount",
-    regulator:"regulatorCount",
-    oscillator:"oscillatorCount"
-  };
-  for (const k in map) {
-    const el = document.getElementById(map[k]);
-    if (el) el.innerText = gs[k]||0;
-  }
-  document.getElementById("operations").innerText = gs.operations||0;
-  document.getElementById("instability").innerText = Math.floor(gs.instability||0);
-}
-
-const oldUpdui = window.updui;
-window.updui = function() {
-  try { if (typeof oldUpdui==="function") oldUpdui(); } catch(e){}
-  upduiCircuit();
-};
-
-// initial UI refresh
-updui();
-
-
-//_________________________________________________________//
-document.addEventListener("keydown", function(e) {
-  if (e.ctrlKey && e.shiftKey && e.key === "Backspace") {
-    e.preventDefault(); // stop browser's default action
-    reset();
-  }
-});
-document.addEventListener("keydown", function(e) {
-  if (e.ctrlKey && e.shiftKey && e.key === "1") {
-    e.preventDefault(); // stop browser's default action
-    gs.funds +=1
-  }
-});
-</script>
-
-
+document.addEventListener("keydown", function(e1) { if (e1.ctrlKey && e1.shiftKey && e1.key === "Backspace") { e1.preventDefault(); reset(); } });
+document.addEventListener("keydown", function(e2) { if (e2.ctrlKey && e2.shiftKey && e2.key === "1") { e2.preventDefault(); gs.funds +=1 } });
 
 </script>
 
