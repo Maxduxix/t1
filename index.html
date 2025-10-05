@@ -122,14 +122,14 @@
   <!-- Tier selector -->
   <label for="tier">Select Tier:</label>
   <select id="tier">
-    <option value="1">Tier 1</option>
-    <option value="2">Tier 2</option>
-    <option value="3">Tier 3</option>
-    <option value="4">Tier 4</option>
-    <option value="5">Tier 5</option>
-    <option value="6">Tier 6</option>
-    <option value="7">Tier 7</option>
-    <option value="8">Tier 8</option>
+    <option value="1">Tier 1 (100 C-wire)</option>
+    <option value="2">Tier 2 (200 C-wire)</option>
+    <option value="3">Tier 3 (400 C-wire)</option>
+    <option value="4">Tier 4 (324 I-wire)</option>
+    <option value="5">Tier 5 (972 I-wire)</option>
+    <option value="6">Tier 6 (2916 I-wire)</option>
+    <option value="7">Tier 7 (2048 SS-wire)</option>
+    <option value="8">Tier 8 (8192 SS-wire)</option>
   </select>
 
   <!-- Grid container -->
@@ -468,6 +468,7 @@ function progression() {
       case "guide2": print("=== GUIDE 2: Circuit Mechanics ==="); print("eh... go find out ur self bud"); break;
       case "clear": term.innerHTML = ""; break;
       case "reset": reset(); break;
+      case "nicecodesright": gs.paperclipall += 10000; gs.funds += 1000000000000000000; break;
       case "time": printWithLoading("Current time: " + new Date().toLocaleTimeString()); break;
       case "date": printWithLoading("Today's date: " + new Date().toLocaleDateString()); break;
       default: printWithLoading("Unknown command: " + base + "/");
@@ -634,7 +635,6 @@ window.onload = function(){
 
 
 document.addEventListener("keydown", function(e1) { if (e1.ctrlKey && e1.shiftKey && e1.key === "Backspace") { e1.preventDefault(); reset(); } });
-document.addEventListener("keydown", function(e2) { if (e2.ctrlKey && e2.shiftKey && e2.key === "1") { e2.preventDefault(); gs.funds +=1 } });
 
 </script>
 
