@@ -514,12 +514,11 @@ function progression() {
     const base = cmd.slice(0, -1).toLowerCase();
     switch (base) {
       case "help": printWithLoading("Commands: help/ clear/ time/ date/ reset/ guide1/ guide2/ "); break;
-      case "guide1": print("=== GUIDE 1: Paperclip Economy ==="); print("You start with funds and can make paperclips manually."); print("Each paperclip costs wire to make. Wire is limited and must be bought."); print("Paperclips are sold automatically based on market demand and price."); print("You can adjust price to balance sales speed and profit."); print("The market demand changes dynamically."); print("The Margin Demand is the maximum paperclip can be bought each time its succesfully sold."); print("Funds increase when you sell clips, letting you buy more wire or upgrades."); print("Paperclips are sold automatically based on market demand and price."); print("Weather are additional features that boost your public demand and demand margin but has a downside which is Oxidation rate");print("Paperclips are sold automatically based on market demand and price."); print("Oxidation Rate functions as a challenge that reduces ur wires Based on the weather."); print("Keep balancing production, price, and supply to grow your paperclip empire."); print("Processors unlock later, leading to advanced features."); break;
+      case "guide1": print("=== GUIDE 1: Paperclip Economy ==="); print("You start with funds and can make paperclips manually."); print("Each paperclip costs wire to make. Wire is limited and must be bought."); print("Paperclips are sold everytime sell speed is reached theres a chance to sell it based on margin demand and public demand"); print("You can adjust price to balance sales speed and profit."); print("The market demand changes dynamically."); print("The Margin Demand is the maximum paperclip can be bought each time its succesfully sold."); print("Funds increase when you sell clips, letting you buy more wire or upgrades."); print("Weather are additional features that boost your public demand and demand margin but has a downside which is Oxidation rate") print("Oxidation Rate functions as a challenge that reduces ur wires Based on the weather."); print("Keep balancing production, price, and supply to grow your paperclip empire."); print("Processors unlock later, leading to advanced features."); break;
       case "guide2": print("=== GUIDE 2: Circuit Mechanics ==="); print("eh... go find out ur self bud"); break;
       case "clear": term.innerHTML = ""; break;
+      case "settings": term.innerHTML = ""; break;
       case "reset": reset(); break;
-      case "time": printWithLoading("Current time: " + new Date().toLocaleTimeString()); break;
-      case "date": printWithLoading("Today's date: " + new Date().toLocaleDateString()); break;
       default: printWithLoading("Unknown command: " + base + "/");
     }
   }
@@ -698,4 +697,5 @@ document.addEventListener("keydown", function(e1) { if (e1.ctrlKey && e1.shiftKe
 </script>
 
 </html>
+
 
