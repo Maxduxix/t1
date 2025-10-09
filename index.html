@@ -434,7 +434,7 @@ let trig2 = false
 let trig3 = false
 let trig4 = false
 function progression() {
-  if (gs.paperclipall >= 0 && trig1 == false) {
+  if (gs.paperclipall > 0 && trig1 == false) {
     printWithLoading("You Unlocked the Business section");
     trig1 = true
 
@@ -698,3 +698,4 @@ document.addEventListener("keydown", function(e1) { if (e1.ctrlKey && e1.shiftKe
 </script>
 
 </html>
+
