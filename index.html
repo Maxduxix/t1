@@ -30,16 +30,17 @@
   <div id="barContainer"><div id="barFill2" class="barFill2" style="height: 5px;"></div></div>
 </button>
 
-  <div class="businesspart" id="prog1" style="opacity: 0;">
-    <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Business</b>
+  <div class="hidden" id="prog1">
+    <b style="font-size: 15px; display: block; margin-bottom: 2px;">Business</b>
     <hr style="margin: 0;">
-
-   <div style="display: flex; gap: 4px; margin-top: 4px;">
+     <div style="display: flex; gap: 4px; margin-top: 4px; margin-bottom: 6px; height: 19px;">
      <div style="margin-top: 2px; font-size: 14.5px;">Music:</div>
     <button onclick="playMusic()" id="b">Play</button>
   <button onclick="pauseMusic()" id="b">Pause</button>
   <button onclick="toggleMusic()" id="b">Toggle</button>
    </div>
+
+    <div style="font-size: 15px;" id="inflationDisplay" class="hidden" style="margin-bottom: 13px;"></div>
     <div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 4px;">Available Funds:  $ <span id="funds">0</span></div>
 
     <div style="display: flex;  margin-bottom: 2px;">
@@ -57,15 +58,16 @@
      <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 12px;">Oxidation Rate <span id="oxidation"> 0 </span> %</div>
 
      <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Avail-OnStore:  <span id="store"> 1 </span></div>
-     <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv3()">Marketing </button><span style="font-size: 14px;"> Level: <span id="marketlevel"> 1</span></span>
+     <button  id="b" style="padding: 2px 4px; margin-bottom: 2px;" onclick="addv3()">Marketing </button><span style="font-size: 14px;"> Level: <span>(<span id="marketlevel"> 1 </span> / 30)</span></span>
      <div style="margin-top: 2px; font-size: 14.5px;  margin-bottom: 2px;">Cost:  $ <span id="v3price"> 0 </span></div>
 
 
 
 </div>
-<div class="businesspart" id="prog2" style="opacity: 0;">
+<div class="hidden" id="prog2">
     <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Manufacturing</b>
     <hr style="margin: 0;">
+     <div style="font-size: 15px;" id="pollutionvis"></div>
 <div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 2px;"> 
   <div style="margin-top: 2px; font-size: 14.5px; margin-bottom: 1px;">Oxidation-Meter:</div>
 
@@ -98,13 +100,17 @@
           <button style="width: 20px; cursor: pointer; margin: 1px; font-size: 9px; " onclick="v2minus()" id="b">-</button>
     </div>
 
-    <button id="b">Settings</button>
+    <button id="b" style="margin-bottom: 55px;">Settings</button>
     
 </div>
 
 </div>
 
-<div class="leftcolumn" id="prog3" style="opacity: 0; width: 506px;">
+<div class="hidden" id="prog3" style="opacity: 0; width: 330px;">
+
+   <b style="font-size: 15px; display: block; margin-bottom: 2px; ">Processor</b>
+    <hr style="margin-bottom: 6px;">
+
   <!-- Currency display -->
   <div id="currency">
     <button id="reset" style="margin-bottom: 8px;">Reset Grid</button>
@@ -117,19 +123,20 @@
     <button data-part="producer" id="b">Producer</button>
     <button data-part="stabilizer"  id="b">Stabilizer</button>
     <button data-part="amplifier"  id="b">Amplifier</button>
+    <button data-part="capacitator"  id="b">Capacitator</button>
   </div>
 
   <!-- Tier selector -->
   <label for="tier">Select Tier:</label>
   <select id="tier">
-    <option value="1">Tier 1 (100 C-wire)</option>
-    <option value="2">Tier 2 (200 C-wire)</option>
-    <option value="3">Tier 3 (400 C-wire)</option>
-    <option value="4">Tier 4 (324 I-wire)</option>
-    <option value="5">Tier 5 (972 I-wire)</option>
-    <option value="6">Tier 6 (2916 I-wire)</option>
-    <option value="7">Tier 7 (2048 SS-wire)</option>
-    <option value="8">Tier 8 (8192 SS-wire)</option>
+    <option value="1">Tier 1 (42 C-wire)</option>
+    <option value="2">Tier 2 (88 C-wire)</option>
+    <option value="3">Tier 3 (185 C-wire)</option>
+    <option value="4">Tier 4 (68 I-wire)</option>
+    <option value="5">Tier 5 (122 I-wire)</option>
+    <option value="6">Tier 6 (221 I-wire)</option>
+    <option value="7">Tier 7 (486 SS-wire)</option>
+    <option value="8">Tier 8 (1458 SS-wire)</option>
   </select>
 
   <!-- Grid container -->
@@ -140,19 +147,16 @@
   <div id="stats"></div>
 </div>
 
-
-
 </body>
 
 <script>
 
 let gs = JSON.parse(localStorage.getItem("gs")) || {
-    paperclipall: 0, weather: 0, pollution0t: 0.01,
+    paperclipall: 0, weather: 0, pollution0t: 0.01, 
     paperclip: 0, paperclip1: 0, paperclip2: 0, paperclip3: 0,
     funds: 0,
-    market: 0,
+    market: 0, inflation: 100,
     wire1: 25, wire2: 0, wire3: 0,
-    instability: 0
 };
 
 
@@ -166,6 +170,9 @@ let wprice = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
     const grid = document.getElementById("grid");
+    const grid2 = document.getElementById("grid2");
+    const grid3 = document.getElementById("grid3");
+    const grid4 = document.getElementById("grid4");
     const tierSelect = document.getElementById("tier");
     const buttons = document.querySelectorAll("#buttons button");
     const statsDiv = document.getElementById("stats");
@@ -175,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let selectedPart = null;
     const gridSize = 6;
-    const instCap = 50;
+    let instCap = 50;
     const cells = [];
 
     
@@ -189,6 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.appendChild(cell);
       cells.push(cell);
     }
+
+
 
     
     buttons.forEach(button => {
@@ -234,13 +243,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let wireType, cost;
   if (tier >= 1 && tier <= 3) {
     wireType = "wire1";  
-    cost = 50 * Math.pow(2, tier);     
+    cost = 20 * Math.pow(2.1, tier);     
   } else if (tier >= 4 && tier <= 6) {
     wireType = "wire2";  
-    cost = 4 * Math.pow(3, tier);
+    cost = 6.5 * Math.pow(1.8, tier);
   } else if (tier >= 7 && tier <= 8) {
     wireType = "wire3";  
-    cost = 2 * Math.pow(4, tier-2);
+    cost = 2 * Math.pow(3, tier-2);
   }
 
   
@@ -249,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   } else {
     gs[wireType] -= cost;
-    print2(`Used ${cost} ${wireType === "wire1" ? "Copper" : wireType === "wire2" ? "Iron" : "Steel"} wire to place ${selectedPart} T${tier}`);
+    print2(`Used ${cost.toFixed(0)} ${wireType === "wire1" ? "Copper" : wireType === "wire2" ? "Iron" : "Steel"} wire to place ${selectedPart} T${tier}`);
   }
 
   
@@ -264,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     
     function calculateStats() {
+      let instCap = 50;
       let totalOps = 0;
       let totalInst = 0;
       let output = "";
@@ -279,14 +289,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (part === "producer") {
           ops = 2 * Math.pow(2.6, tier - 1);
-          inst = 1 * Math.pow(2.3, tier - 1);
+          inst = 2 * Math.pow(2.7, tier - 1);
         } else if (part === "stabilizer") {
           ops = 0;
           inst = 0; 
         } else if (part === "amplifier") {
-          ops = -1 * Math.pow(1.3, tier - 1);
-          inst = 3 * Math.pow(2.8, tier - 1);
+          ops = -1 * Math.pow(1.4, tier - 1);
+          inst = 2.5 * Math.pow(2.95, tier - 1);
+
+        } else if (part === "capacitator") {
+          ops = -1.5 * Math.pow(2.2, tier - 1);
+          instCap +=  (2 * (Math.pow(1.5, tier).toFixed(0)));
         }
+      
 
         
         const adj = getAdjacent(idx);
@@ -296,18 +311,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
           
           if ((part === "producer" || part === "amplifier") && neighborPart === "stabilizer") {
-            inst = Math.max(0, inst - (1.5 * neighborTier));
+          inst = Math.max(0, inst - Math.round(Math.pow(2.2, neighborTier)));
+
           }
 
           
           if (part === "producer" && neighborPart === "amplifier") {
+            ops += 1 + 1.2 * (Math.round(Math.pow(1.45, (neighborTier+tier))) - 0.5) + 0.4;
+          }
+
             
-            ops *= (1 + 0.2 * (neighborTier - 0.6) + 0.2);
+          if (part === "capacitator" && neighborPart === "amplifier") {
+            
+            ops *= (-1 * Math.pow(1.13, neighborTier));
           }
 
           
           if (neighborPart && neighborPart === part) {
-            ops *= 1.15;   
+            ops *= 1.25;   
             inst *= 1.45;  
           }
         });
@@ -332,7 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       opsSpan.textContent = `Ops: ${totalOps.toFixed(2)}`;
-      instSpan.textContent = `Inst: ${totalInst.toFixed(2)} / ${instCap}`;
+      instSpan.textContent = `Inst: ${totalInst.toFixed(2)} / ${instCap.toFixed(2)}`;
       statsDiv.innerHTML = output || "No parts placed yet.";
     }
 
@@ -373,6 +394,15 @@ function updui() {
   if (bar2) bar2.style.width = (typeof count2 !== 'undefined' ? count2 : 0) + "%";
   if (bar3) bar3.style.width = (typeof count3 !== 'undefined' ? count3 : 0) + "%";
   if (bar4) bar4.style.width = (typeof count4 !== 'undefined' ? count4 : 0) + "%";
+
+const displayValue = (gs.inflation/ 100).toFixed(3);
+document.getElementById("inflationDisplay").textContent =
+  `Inflation: $1 = $${displayValue}  (${gs.inflation.toFixed(2)} %)`;
+
+  const displayValue1 = (gs.pollution0t).toFixed(3);
+document.getElementById("pollutionvis").textContent =
+  `Pollution: ${gs.pollution0t.toFixed(2)}% (-${(((gs.pollution0t)*(Math.abs(gs.weather)))*25).toFixed(2)}, -${(((gs.pollution0t)*(Math.abs(gs.weather)))*5).toFixed(2)}, -${(((gs.pollution0t)*(Math.abs(gs.weather)))).toFixed(2)})`;
+
   document.getElementById('v1all').innerText = formatNumber(formatDynamic(gs.paperclipall, 2));
   document.getElementById('v1').innerText = formatNumber(formatDynamic(gs.paperclip, 2));
   document.getElementById('v2').innerText = formatNumber(formatDynamic(plus2, 2));
@@ -402,31 +432,51 @@ function toggleMusic() { if (!bgMusic) return; if (bgMusic.paused) bgMusic.play(
 let trig1 = false
 let trig2 = false
 let trig3 = false
+let trig4 = false
 function progression() {
-  if (gs.paperclipall > 0 && trig1 == false) {
+  if (gs.paperclipall >= 0 && trig1 == false) {
     printWithLoading("You Unlocked the Business section");
-    trig1 = true}
-  if (gs.paperclipall > 10 && trig2 == false) {
-    printWithLoading("You Unlocked the Manufacture section");
-     trig2 = true}
-  if (gs.paperclipall > 250 && trig3 == false) {
-    printWithLoading("You Unlocked the Processor");
+    trig1 = true
+
+    const contentBox1 = document.getElementById('prog1');
+    contentBox1.classList.replace('hidden', 'businesspart');
+  }
+  if (gs.paperclipall >= 10 && trig2 == false) {
+    printWithLoading("You Unlocked the Manufacture section. Next main progession: 250 TPP");
+     const contentBox2 = document.getElementById('prog2');
+     contentBox2.classList.replace('hidden', 'businesspart');
+     trig2 = true} {
+    }
+  if (gs.paperclipall >= 250 && trig3 == false) {
+      const contentBox3 = document.getElementById('prog3');
+     contentBox3.classList.replace('hidden', 'leftcolumn');
+    printWithLoading("You Unlocked the Processor. Next main progession: 350 OPS");
      trig3 = true}
-  if (gs.paperclipall > 100 && gs.pollution0t == 0.01) {
+  if (gs.paperclipall >= 175 && trig4 == false) {
+    printWithLoading("Inflation is added.... :D this might be benificial or not...",);
+     const contentBox4 = document.getElementById('inflationDisplay');
+     contentBox4.classList.replace('hidden', 'x');
+    trig4 = true
+    }
+    if (gs.paperclipall >= 100 && gs.pollution0t == 0.01) {
     printWithLoading("Pollution has increased... + 0.01% Oxidiation Rate");
-    gs.pollution0t = 0.02
+    gs.pollution0t += 0.01
     }
-  if (gs.paperclipall > 500 && gs.pollution0t == 0.02) {
+  if (gs.paperclipall >= 500 && gs.pollution0t == 0.02) {
     printWithLoading("Pollution has increased... + 0.01% Oxidiation Rate");
-    gs.pollution0t = 0.03
+    gs.pollution0t += 0.01
     }
-   if (gs.paperclipall > 500 && gs.pollution0t == 0.03) {
+   if (gs.paperclipall >= 500 && gs.pollution0t == 0.03) {
     printWithLoading("Pollution has increased... + 0.02% Oxidiation Rate");
-    gs.pollution0t = 0.05
+    gs.pollution0t += 0.02
     }
-   if (gs.paperclipall > 2500 && gs.pollution0t == 0.05) {
-    printWithLoading("Pollution has increased... + 0.02% Oxidiation Rate");
-    gs.pollution0t = 0.07
+   if (gs.paperclipall >= 1500 && gs.pollution0t == 0.05) {
+    printWithLoading("Pollution has increased... + 0.03% Oxidiation Rate");
+    gs.pollution0t += 0.03
+    }
+  if (gs.paperclipall >= 3500 && gs.pollution0t == 0.08) {
+    printWithLoading("Pollution has increased... + 0.07% Oxidiation Rate");
+    gs.pollution0t += 0.07
     }
 }
 
@@ -464,11 +514,10 @@ function progression() {
     const base = cmd.slice(0, -1).toLowerCase();
     switch (base) {
       case "help": printWithLoading("Commands: help/ clear/ time/ date/ reset/ guide1/ guide2/ "); break;
-      case "guide1": print("=== GUIDE 1: Paperclip Economy ==="); print("You start with funds and can make paperclips manually."); print("Each paperclip costs wire to make. Wire is limited and must be bought."); print("Paperclips are sold automatically based on market demand and price."); print("You can adjust price to balance sales speed and profit."); print("The market demand changes dynamically."); print("The Margin Demand is the maximum paperclip can be bought each time its succesfully sold."); print("Funds increase when you sell clips, letting you buy more wire or upgrades."); print("Keep balancing production, price, and supply to grow your paperclip empire."); print("Processors unlock later, leading to advanced features."); break;
+      case "guide1": print("=== GUIDE 1: Paperclip Economy ==="); print("You start with funds and can make paperclips manually."); print("Each paperclip costs wire to make. Wire is limited and must be bought."); print("Paperclips are sold automatically based on market demand and price."); print("You can adjust price to balance sales speed and profit."); print("The market demand changes dynamically."); print("The Margin Demand is the maximum paperclip can be bought each time its succesfully sold."); print("Funds increase when you sell clips, letting you buy more wire or upgrades."); print("Paperclips are sold automatically based on market demand and price."); print("Weather are additional features that boost your public demand and demand margin but has a downside which is Oxidation rate");print("Paperclips are sold automatically based on market demand and price."); print("Oxidation Rate functions as a challenge that reduces ur wires Based on the weather."); print("Keep balancing production, price, and supply to grow your paperclip empire."); print("Processors unlock later, leading to advanced features."); break;
       case "guide2": print("=== GUIDE 2: Circuit Mechanics ==="); print("eh... go find out ur self bud"); break;
       case "clear": term.innerHTML = ""; break;
       case "reset": reset(); break;
-      case "nicecodesright": gs.paperclipall += 10000; gs.funds += 1000000000000000000; break;
       case "time": printWithLoading("Current time: " + new Date().toLocaleTimeString()); break;
       case "date": printWithLoading("Today's date: " + new Date().toLocaleDateString()); break;
       default: printWithLoading("Unknown command: " + base + "/");
@@ -491,7 +540,7 @@ let clipon = false
 function addv1() {
   if (clipon) return;
   if (progress <= 101) {
-    if (wusage === 5 && gs.wire3 > 0) {progress +=3.5} else if (wusage === 2.5 && gs.wire2 > 0) {progress +=7} else if (wusage === 1 && gs.wire1 > 0) {progress +=11}
+    if (wusage === 5 && gs.wire3 > 0) {progress +=3.5} else if (wusage === 2.5 && gs.wire2 > 0) {progress +=7} else if (wusage === 1 && gs.wire1 > 0) {progress +=13}
     if (progress >= 100 && wusage === 1 && gs.wire1 > 0) {
         progress = 0; gs.wire1 -=1; gs.paperclipall++; gs.paperclip1++; print2("You made 1 Copper Paperclip");
     } else if (progress > 100 && wusage === 2.5 && gs.wire2 > 0) {
@@ -499,7 +548,7 @@ function addv1() {
     } else if (progress > 100 && wusage ===  5 && gs.wire3 > 0) {
         progress = 0; gs.wire3 -=1; gs.paperclipall++; gs.paperclip3++; print2("You made 1 S-Steel Paperclip");
     }
-    clipon = true; setTimeout(() => { clipon = false; }, 150);
+    clipon = true; setTimeout(() => { clipon = false; }, 185);
     updui();
   }
 }
@@ -584,15 +633,17 @@ function SIgroup(){
 
     if (v1price >= 10) {v1pricenerf = 2 }else if (v1price >= 5) {v1pricenerf = 1.45} else if (v1price >= 1) {v1pricenerf = 1.1} else if (v1price >= 0.5) {v1pricenerf = 0.95} else {v1pricenerf = 0.78}
     if (gs.instability > 0) {gs.instability -= 0.1}
-    if (progress > 0) {progress-=1}
+    if (progress > 0) {progress-=1.4}
     gs.paperclip = (gs.paperclip1)+(gs.paperclip2)+(gs.paperclip3)
     v1price = (0.01)+(plus/100)
-    v2price = Math.max(0, 0.05 * plus2 *(wprice));
-    v3price = ((10)*((gs.market+7)/7))*(Math.pow(((gs.market+10)/10),2))
-    demand =((0.85+((gs.market)/40))*(((gs.weather)+10)/10)*((wusage+9)/10))/(Math.pow((v1price*101), (v1pricenerf-(gs.market/50))));
+    v2price = Math.max(0, 0.05 * plus2 *(wprice) * (gs.inflation / 100));
+    v3price = ((10)*((gs.market+7)/7))*(Math.pow(((gs.market+10)/10),2))*(gs.inflation/100)
+    demand =((0.85+((gs.market)/40))*(((gs.weather)+10)/10)*((wusage+9)/10)*Math.pow(100 / gs.inflation, 1.2))/(Math.pow((v1price*101), (v1pricenerf-(gs.market/50))));
     oxidation = ((gs.pollution0t)*(Math.abs(gs.weather)))
     demand0mmax = ((Math.max(1, ((25*(Math.pow((gs.market+10)/10,2))*((wusage+1)/2))/(v1price*80)))));
 
+
+    
     localStorage.setItem("gs",JSON.stringify(gs));
     progression()
     updui()
@@ -613,8 +664,8 @@ else if (rngw >= 0.50) gs.weather = 0;
   
   printWithLoading("Welcome to the terminal!", 2000);
   setTimeout(() => printWithLoading("Loading resources...", 2000), 3500);
-  setTimeout(() => printWithLoading("Welcome to the Matrix.", 2000), 7000);
-  setTimeout(() => printWithLoading("Type 'help/' to check out useless Commands ", 2000), 10000);
+  setTimeout(() => printWithLoading("Welcome to A Fangame About Paperclip Universe. Hope you enjoy it : )", 2000), 7000);
+  setTimeout(() => printWithLoading("Type 'help/' to check out useless Commands ", 2000), 14000);
 window.onload = function(){
   localStorage.setItem("gs", JSON.stringify(gs));
   setInterval(SIgroup, 250);
@@ -631,8 +682,16 @@ window.onload = function(){
   count2 = 0
   const interval2 = 650 / 100;
     const timer2 = setInterval(() => { count2++; if (count2 >= 100) { count2 = 0; sell() } }, interval2);
-}
-
+    }
+ setInterval(() => {
+  if (gs.paperclipall >150) {
+    const drift = (Math.random() * 0.3) + 0.02 + gs.pollution0t;    
+  const bias  = (100 - gs.inflation) / 650;         
+  const direction = Math.random() < 0.5 ? -1 : 1; 
+  gs.inflation += (direction * drift) + bias;
+  gs.inflation = Math.max(25, Math.min(400, gs.inflation)); 
+  }
+ },1000)
 
 document.addEventListener("keydown", function(e1) { if (e1.ctrlKey && e1.shiftKey && e1.key === "Backspace") { e1.preventDefault(); reset(); } });
 
